@@ -54,13 +54,12 @@ def query_book(d):
 
     where = " where " + where
 
-    sql = sql + " limit 10;"
-    # sql = sql + where + ";"
+    # sql = sql + " limit 10;"
+    sql = sql + where + ";"
 
     print sql
 
-    try:
-        
+    try:    
         db.query(sql)
         r = db.store_result()
         if 0 == r.num_rows():
