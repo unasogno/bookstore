@@ -13,7 +13,7 @@ def put(path, query, body):
 
 def get(path, query, body):
     if ('/' == path):
-        arguments = __extract_arguments(query_string)
+        arguments = __extract_arguments(query)
 
     book_id = path.split('/')[1]
     
