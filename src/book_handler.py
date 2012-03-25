@@ -54,7 +54,7 @@ while True:
 
     try:
       code, status, response = handlers[method](
-        req.path, query_string, req.body);
+        req.path.split('/book', 1), query_string, req.body);
     except Error as error:
       logger.error("Failed to handle request: %s - %s", req, Error);
       code = 500
