@@ -34,7 +34,7 @@ def query_book(d):
     if (None == d):
         args = {}
    
-    expected = ['title', 'name'] 
+    expected = ['title', 'name', 'book_id'] 
     args = filter_dict(d, expected)
 
     global server, schema, username, password
