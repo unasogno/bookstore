@@ -57,7 +57,7 @@ while True:
     response = 'Server Error'
     try:
       code, status, response = handlers[method](
-        req.path.split('/book', 1), query_string, req.body)
+        req.path.split('/book', 1)[1], query_string, req.body)
     except Exception as ex:
       logger.error("Failed to handle request: %s - %s", req, ex)
     finally:
