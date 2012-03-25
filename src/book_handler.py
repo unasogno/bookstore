@@ -52,13 +52,13 @@ while True:
     logger.debug(query_string)
     method = req.headers.get('METHOD')
 
+    code = 500
+    status = 'Internal Server Error'
+    response = 'Server Error'
     try:
       code, status, response = handlers[method](
-        req.path.split('/book', 1), query_string, req.body);
-    except Error as error:
-      logger.error("Failed to handle request: %s - %s", req, Error);
-      code = 500
-      status = 'Internal Server Error'
-      response = 'Server Error'
+        req.path.split('/book', 1), query_string, req.body)
+    except Exception as ex:
+      logger.error("Failed to handle request: %s - %s", req, ex)
     finally:
       conn.reply_http(req, response, code, status)
