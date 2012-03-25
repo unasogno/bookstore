@@ -52,7 +52,8 @@ def query_book(d):
     where = " and ".join([
         "=".join([k.__str__(), args[k].__str__().join(["'", "'"])]) for k in args])
 
-    where = " where " + where
+    if (where.strip() != ""):
+        where = " where " + where
 
     # sql = sql + " limit 10;"
     sql = sql + where + ";"
