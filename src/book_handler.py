@@ -49,7 +49,6 @@ while True:
     continue
   else:
     query_string = req.headers.get('QUERY')
-    logger.debug(query_string)
     method = req.headers.get('METHOD')
 
     code = 500
