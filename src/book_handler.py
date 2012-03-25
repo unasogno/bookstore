@@ -4,7 +4,7 @@ from mongrel2 import handler
 import json
 from uuid import uuid4
 import logging
-import data_access as da
+import book
 
 LOG_PATH = '/home/kai/mongrel2/logs/book.py.log'
 FORMAT = '%(asctime)s - %(name)s -%(levelname)s - %(message)s'
@@ -26,11 +26,6 @@ def init_logger():
   logger.setLevel(logging.DEBUG)
   return logger
 
-def extract_arguments(s):
-  if (None == s):
-    return None;
-  return dict((n,v) for n, v in (i.split('=', 1) for i in s.split('&')))
-
 logger = init_logger()
 
 sender_id = uuid4().hex
@@ -40,6 +35,9 @@ conn = handler.Connection(
     "tcp://127.0.0.1:9994")
 
 logger.debug('connected')
+
+handlers = {
+  'PUT': book.put, 'GET': book.get, 'post': book.post, 'delete': book.delete }
 
 while True:
   logger.debug('waiting for request')
@@ -51,9 +49,16 @@ while True:
     continue
   else:
     query_string = req.headers.get('QUERY')
-    arguments = extract_arguments(query_string)
-    logger.debug(arguments)
-    json = da.query_book(arguments)
-    response = json
+    logger.debug(query_string)
+    method = req.headers.get('METHOD')
 
-  conn.reply_http(req, response)
+    try:
+      code, status, response = handlers[method](
+        req.path, query_string, req.body);
+    except Error as error:
+      logger.error("Failed to handle request: %s - %s", req, Error);
+      code = 500
+      status = 'Internal Server Error'
+      response = 'Server Error'
+    finally:
+      conn.reply_http(req, response, code, status)
