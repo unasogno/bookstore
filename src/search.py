@@ -2,6 +2,10 @@
 
 from uuid import uuid4
 import json
+import urllib2
+import sys
+import traceback
+
 from mongrel2 import handler
 import mmseg
 from mmseg import seg_txt
@@ -31,17 +35,18 @@ while True:
       terms = []
       if 'text' in params:
         text = params['text']
+        text = urllib2.unquote(params['text'].encode('ascii'))
+        
         for term in seg_txt(text):
-          terms.append(term)
+          terms.append(term.decode('utf8'))
       else:
         terms.append(query)
-
       code = 200
       status = "OK"
-      response = json.dumps(terms)
+      response = json.dumps(terms, ensure_ascii=False).encode('utf8')
 
     except:
-      pass
+      traceback.print_exc()
     finally:
       conn.reply_http(req, response, code, status)
 
