@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS book
   author VARCHAR(200),
   barcode VARCHAR(20),
   comments VARCHAR(200),
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(book_id),
   FOREIGN KEY(publisher_id) REFERENCES publisher(publisher_id) 
 );
