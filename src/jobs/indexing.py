@@ -1,0 +1,43 @@
+# -*- coding:utf8 -*-
+
+import xapian
+import config
+
+class Indexer(object):
+  def __init__(self):
+    self._db = xapian.WritableDatabase(
+      config.DB_PATH, xapian.DB_CREATE_OR_OPEN)
+
+  def create_index(self, item):
+    doc = self._create_doc(item)
+    docid = self._db.add_document(doc)
+    item.set_docid(docid)
+
+  def update_index(self, item):
+    doc = self._create_doc(item)
+    docid = item.get_docid()
+    self._db.replace_document(docid, doc)
+
+  def _create_doc(self, item):
+    terms = item.get_terms()
+    doc = Document()
+    for term in terms:
+      doc.add_term(term)
+    doc.set_data(item.get_data())
+    return doc
+
+  def close(self):
+    self._db.commit()
+
+def process(lib):
+
+  indexer = Indexer()
+
+  for doc in lib.get_new_documents():
+    indexer.create_index(doc)
+
+  for doc in lib.get_updated_documents():
+    indexer.update_index(doc)
+
+  indexer.close()
+
