@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS customer
   customer_id INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   comments VARCHAR(200),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(customer_id)
 );
 
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS publisher
   publisher_id INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `code` VARCHAR(10),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(publisher_id)
 );
 
@@ -28,6 +30,7 @@ CREATE TABLE IF NOT EXISTS supplier
   address VARCHAR(200),
   phone_number VARCHAR(50),
   comments VARCHAR(200),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(supplier_id)
 );
 
@@ -47,7 +50,7 @@ CREATE TABLE IF NOT EXISTS book
   author VARCHAR(200),
   barcode VARCHAR(20),
   comments VARCHAR(200),
-  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(book_id),
   FOREIGN KEY(publisher_id) REFERENCES publisher(publisher_id) 
 );
@@ -57,6 +60,7 @@ CREATE TABLE IF NOT EXISTS publisher_partner
 (
   publisher_id INT NOT NULL,
   supplier_id INT NOT NULL,
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY(publisher_id)  REFERENCES publisher(publisher_id),
   FOREIGN KEY(supplier_id)  REFERENCES supplier(supplier_id)
 );
@@ -68,6 +72,7 @@ CREATE TABLE IF NOT EXISTS supply
   book_id INT NOT NULL,
   discount DECIMAL(4,3) NOT NULL DEFAULT 1,
   inventory INT NOT NULL DEFAULT -1
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 );
 
 -- 7 
@@ -79,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `order`
   date_added DATETIME NOT NULL,
   date_shipped DATETIME,
   comments VARCHAR(200),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(order_id),
   FOREIGN KEY(customer_id) REFERENCES customer(customer_id)
 );
@@ -91,6 +97,7 @@ CREATE TABLE IF NOT EXISTS order_item
   book_id INT NOT NULL,
   discount DECIMAL(4,3),
   quantity INT(5),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(order_item_id),
   FOREIGN KEY(order_id) REFERENCES `order`(order_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
@@ -102,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `code`
   `type` INT(3),
   `name` VARCHAR(50),
   `value` INT(3)
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 );
 
 -- 10
@@ -115,6 +123,7 @@ CREATE TABLE IF NOT EXISTS contact
   cell_phone VARCHAR(20),
   email VARCHAR(100),
   comments VARCHAR(200),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (contact_id)
 );
 
@@ -125,6 +134,7 @@ CREATE TABLE IF NOT EXISTS partner_contact
   partner_type INT(3) NOT NULL,
   partner_id INT(3) NOT NULL,
   comments VARCHAR(200),
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (contact_id, partner_type, partner_id)
 );
 
@@ -133,7 +143,9 @@ CREATE TABLE IF NOT EXISTS USER
 (
   user_id INT NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(20) UNIQUE NOT NULL,
-  `password` VARCHAR(
+  `password` VARCHAR(20) NOT NULL,
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id)
 );
 
 -- 13
@@ -143,6 +155,7 @@ CREATE TABLE book_tag
   book_id INT NOT NULL,
   tag_type INT(5) NOT NULL,
   tag VARCHAR(200) NOT NULL,
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (tag_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
 );
