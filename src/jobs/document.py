@@ -5,8 +5,9 @@ import config
 
 class Book(object):
   
-  def __init__(self, data, docid = 0):
+  def __init__(self, data, fields, docid = 0):
     self._data = data
+    self._fields = fields
     self._docid = docid
 
   def get_docid():
@@ -16,13 +17,13 @@ class Book(object):
     self._docid = docid
 
   def get_data():
-    return self._data
+    return self._data[0]
 
   def get_terms():
     fields = config.BOOK_INDEXED_FIELDS
 
     values = []
-    for field in fields:
+    for field in self._fields:
       values.append(data[field].encode('utf8'))
 
     text = ' '.join(values)
