@@ -20,11 +20,9 @@ class Book(object):
     return self._data[0]
 
   def get_terms(self):
-    fields = config.BOOK_INDEXED_FIELDS
-
     values = []
     for field in self._fields:
-      values.append(data[field].encode('utf8'))
+      values.append(self._data[field].encode('utf8'))
 
     text = ' '.join(values)
 
