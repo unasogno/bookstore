@@ -13,11 +13,11 @@ class Book(object):
   def get_docid(self):
     return self._docid
 
-  def set_docid(docid):
+  def set_docid(self, docid):
     self._docid = docid
 
   def get_data(self):
-    return self._data[0]
+    return str(self._data[0])
 
   def get_terms(self):
     values = []
@@ -28,6 +28,6 @@ class Book(object):
 
     terms = []
     for term in seg_txt(text):
-      terms.add(term.decode('utf8'))
+      terms.append(term.decode('utf8'))
 
     return terms
