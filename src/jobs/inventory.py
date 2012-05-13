@@ -122,7 +122,7 @@ class Inventory(object):
                     on b.publisher_id = p.publisher_id
                   INNER JOIN book_index bi
                     on b.book_id = bi.book_id
-                  WHERE b.time_stamp >= '%s'
+                  WHERE b.time_stamp > '%s'
                   ORDER BY book_id;
                   ''' % mark
       db.query(statement)
