@@ -44,7 +44,8 @@ class Inventory(object):
 
   def get_new_documents(self):
     db = mysql.connect(
-      config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST) 
+      config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST,
+      charset = 'utf8', use_unicode = True) 
 
     try:
       statement = '''
@@ -74,7 +75,8 @@ class Inventory(object):
 
   def get_updated_documents(self):
     db = mysql.connect(
-      config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST)
+      config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST,
+      charset = 'utf8', use_unicode = True)
 
     try:
       statement = '''
