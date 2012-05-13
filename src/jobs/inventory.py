@@ -48,7 +48,7 @@ class Inventory(object):
 
     try:
       statement = '''
-                  SELECT book_id, title, isbn, p.name as publisher, 
+                  SELECT b.book_id, title, isbn, p.name as publisher, 
                     year(publish_date) as publish_year, `class`, author
                   FROM book b
                   INNER JOIN publisher p
@@ -76,15 +76,27 @@ class Inventory(object):
 
     try:
       statement = '''
-                  SELECT book_id, title, isbn, p.name as publisher, 
+                  SELECT time_stamp FROM high_water_mark 
+                  WHERE entity_id = 1 AND app_id = 1; 
+                  '''
+      db.query(statement)
+      result = db.store_result()
+      if 0 == db.affected_rows():
+        mark = '0000-00-00 00:00:00'
+      else:
+        mark = result.fetch_row()[0]
+
+      statement = '''
+                  SELECT b.book_id, title, isbn, p.name as publisher, 
                     year(publish_date) as publish_year, `class`, author
                   FROM book b
                   INNER JOIN publisher p
                     on b.publisher_id = p.publisher_id
                   INNER JOIN book_index bi
                     on b.book_id = bi.book_id
+                  WHERE b.time_stamp >= '%s'
                   ORDER BY book_id;
-                  '''
+                  ''' & mark
       db.query(statement)
 
       result = db.store_result()
