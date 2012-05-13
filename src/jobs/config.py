@@ -1,6 +1,7 @@
 # -*- coding:utf8 -*-
 
-INDEX_PATH = 'inventory_index/'
+INDEX_PATH = '../indexes/'
+
 DB_HOST = '127.0.0.1'
 DB_USER = 'root'
 DB_PWD = '!Q@W3e4r'
