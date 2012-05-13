@@ -5,7 +5,7 @@ import config
 
 class Book(object):
   
-  def __init__(self, data, docid = None):
+  def __init__(self, data, docid = 0):
     self._data = data
     self._docid = docid
 
