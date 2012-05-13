@@ -63,7 +63,9 @@ class Inventory(object):
       result = db.store_result()
       total = db.affected_rows()
       rows = result.fetch_row(total)
-      
+     
+      for row in rows:
+        yield document.Book(rows, [1, 2, 3, 4, 5, 6]) 
     except:
       db.rollback()
       raise
@@ -102,6 +104,9 @@ class Inventory(object):
       result = db.store_result()
       total = db.affected_rows()
       rows = result.fetch_row(total)
+
+      for row in rows:
+        yield document.Book(rows, [1, 2, 3, 4, 5, 6]) 
     except:
       db.rollback()
       raise
