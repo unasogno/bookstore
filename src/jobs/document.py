@@ -29,7 +29,7 @@ class Book(object):
     text = ' '.join(values)
 
     terms = []
-    for term in seg_text(txt):
+    for term in seg_txt(txt):
       terms.add(term.decode('utf8'))
 
     return terms
