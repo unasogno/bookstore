@@ -21,6 +21,28 @@ class Inventory(object):
   def close(self):
     pass
 
+  def update_high_water_mark(self):
+    db = mysql.connect(
+      config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST) 
+
+    try:
+      statement = '''
+                  update high_water_mark, 
+                  (
+                    select max(time_stamp) mark from book
+                  ) mark 
+                  set time_stamp = mark.mark 
+                  where app_id = 1 and entity_id = 1;
+                  '''
+
+      db.query(statement)
+      db.commit()
+    except:
+      db.rollback()
+      raise
+    finally:
+      db.close()
+
   def add_mapping(self, docs):
     db = mysql.connect(
       config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST) 
@@ -28,7 +50,7 @@ class Inventory(object):
     try:
       statement = '''
                   INSERT INTO book_index (book_id, doc_id)
-                  VALUES (%d, %d);
+                  VALUES (%s, %d);
                   '''
 
       for doc in docs:
@@ -102,7 +124,7 @@ class Inventory(object):
                     on b.book_id = bi.book_id
                   WHERE b.time_stamp >= '%s'
                   ORDER BY book_id;
-                  ''' & mark
+                  ''' % mark
       db.query(statement)
 
       result = db.store_result()
