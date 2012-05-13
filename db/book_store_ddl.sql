@@ -159,3 +159,21 @@ CREATE TABLE book_tag
   PRIMARY KEY (tag_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
 );
+
+-- 14
+create table book_index
+(
+  book_id int not null,
+  doc_id int not null,
+  primary key(book_id, doc_id)
+);
+
+-- 15
+create table high_water_mark
+(
+  entity_id int not null,
+  app_id int not null,
+  time_stamp timestamp default 0,
+  primary key(entity_id, app_id)
+);
+
