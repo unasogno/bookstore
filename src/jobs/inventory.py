@@ -18,6 +18,9 @@ class Inventory(object):
   def rollback(self):
     pass
 
+  def close(self):
+    pass
+
   def add_mapping(self, docs):
     db = mysql.connect(
       config.DB_HOST, config.DB_USER, config.DB_PWD, config.DB_INST) 
