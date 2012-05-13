@@ -26,8 +26,18 @@ class Indexer(object):
     doc.set_data(item.get_data())
     return doc
 
+  def begin_trans(self):
+    self._db.begin_transaction()
+
+  def commit(self):
+    self._db.commit_transaction()
+    self._db.flush()
+
+  def rollback(self):
+    self._db.cancel_transaction()
+
   def close(self):
-    self._db.commit()
+    self._db.flush()
 
 def process(lib):
 
