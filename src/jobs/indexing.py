@@ -6,7 +6,7 @@ import config
 class Indexer(object):
   def __init__(self):
     self._db = xapian.WritableDatabase(
-      config.DB_PATH, xapian.DB_CREATE_OR_OPEN)
+      config.INDEX_PATH, xapian.DB_CREATE_OR_OPEN)
 
   def create_index(self, item):
     doc = self._create_doc(item)
@@ -33,11 +33,26 @@ def process(lib):
 
   indexer = Indexer()
 
-  for doc in lib.get_new_documents():
-    indexer.create_index(doc)
+  lib.begin_trans()
+  indexer.begin_trans()
 
-  for doc in lib.get_updated_documents():
-    indexer.update_index(doc)
+  try:
+    incremental = []
+    for doc in lib.get_new_documents():
+      indexer.create_index(doc)
+      incremental.append(doc)
+    lib.add_mapping(incremental)
 
-  indexer.close()
+    for doc in lib.get_updated_documents():
+      indexer.update_index(doc)
+
+    lib.commit()
+    indexer.commit()
+  except:
+    lib.rollback()
+    indexer.rollback()
+    raise
+
+  finally:
+    lib.close()
 
