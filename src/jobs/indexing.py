@@ -20,7 +20,7 @@ class Indexer(object):
 
   def _create_doc(self, item):
     terms = item.get_terms()
-    doc = Document()
+    doc = xapian.Document()
     for term in terms:
       doc.add_term(term)
     doc.set_data(item.get_data())
@@ -47,14 +47,16 @@ def process(lib):
   indexer.begin_trans()
 
   try:
+    
+    for doc in lib.get_updated_documents():
+      indexer.update_index(doc)
+
     incremental = []
     for doc in lib.get_new_documents():
       indexer.create_index(doc)
       incremental.append(doc)
     lib.add_mapping(incremental)
-
-    for doc in lib.get_updated_documents():
-      indexer.update_index(doc)
+    lib.update_high_water_mark()
 
     lib.commit()
     indexer.commit()
