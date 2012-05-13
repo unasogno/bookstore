@@ -10,16 +10,16 @@ class Book(object):
     self._fields = fields
     self._docid = docid
 
-  def get_docid():
+  def get_docid(self):
     return self._docid
 
   def set_docid(docid):
     self._docid = docid
 
-  def get_data():
+  def get_data(self):
     return self._data[0]
 
-  def get_terms():
+  def get_terms(self):
     fields = config.BOOK_INDEXED_FIELDS
 
     values = []
