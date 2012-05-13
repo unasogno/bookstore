@@ -50,7 +50,7 @@ class Inventory(object):
     try:
       statement = '''
                   SELECT b.book_id, title, isbn, p.name as publisher, 
-                    CAST(year(publish_date) AS varchar) as publish_year, 
+                    BIN(year(publish_date)) as publish_year, 
                     `class`, author
                   FROM book b
                   INNER JOIN publisher p
@@ -93,7 +93,7 @@ class Inventory(object):
 
       statement = '''
                   SELECT b.book_id, title, isbn, p.name as publisher, 
-                    CAST(year(publish_date) AS varchar) as publish_year, 
+                    BIN(year(publish_date)) as publish_year, 
                     `class`, author
                   FROM book b
                   INNER JOIN publisher p
