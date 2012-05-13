@@ -50,7 +50,8 @@ class Inventory(object):
     try:
       statement = '''
                   SELECT b.book_id, title, isbn, p.name as publisher, 
-                    year(publish_date) as publish_year, `class`, author
+                    CAST(year(publish_date) AS varchar) as publish_year, 
+                    `class`, author
                   FROM book b
                   INNER JOIN publisher p
                     on b.publisher_id = p.publisher_id
@@ -66,7 +67,7 @@ class Inventory(object):
       rows = result.fetch_row(total)
      
       for row in rows:
-        yield document.Book(rows, [1, 2, 3, 4, 5, 6]) 
+        yield document.Book(row, [1, 2, 3, 4, 5, 6]) 
     except:
       db.rollback()
       raise
@@ -92,7 +93,8 @@ class Inventory(object):
 
       statement = '''
                   SELECT b.book_id, title, isbn, p.name as publisher, 
-                    year(publish_date) as publish_year, `class`, author
+                    CAST(year(publish_date) AS varchar) as publish_year, 
+                    `class`, author
                   FROM book b
                   INNER JOIN publisher p
                     on b.publisher_id = p.publisher_id
@@ -108,7 +110,7 @@ class Inventory(object):
       rows = result.fetch_row(total)
 
       for row in rows:
-        yield document.Book(rows, [1, 2, 3, 4, 5, 6]) 
+        yield document.Book(row, [1, 2, 3, 4, 5, 6]) 
     except:
       db.rollback()
       raise
