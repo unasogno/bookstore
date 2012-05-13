@@ -1,6 +1,6 @@
 # -*- coding:utf8 -*-
 
-from mmseg import seg_text
+from mmseg import seg_txt
 import config
 
 class Book(object):
@@ -28,7 +28,7 @@ class Book(object):
     text = ' '.join(values)
 
     terms = []
-    for term in seg_text(text):
+    for term in seg_text(txt):
       terms.add(term.decode('utf8'))
 
     return terms
