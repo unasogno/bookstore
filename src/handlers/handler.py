@@ -4,12 +4,11 @@ from mongrel2 import handler
 import json
 from uuid import uuid4
 
-def run(handlers):
+def run(send_spec, recv_spec, handlers):
   sender_id = uuid4().hex
 
   conn = handler.Connection(
-    sender_id, "tcp://127.0.0.1:9995",
-    "tcp://127.0.0.1:9994")
+    sender_id, send_spec, recv_spec)
 
   while True:
     req = conn.recv()
