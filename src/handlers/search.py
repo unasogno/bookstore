@@ -7,6 +7,7 @@ import config
 def get_search(url, header, body):
   query = headers.get('QUERY')
   print query
+  return 200, 'OK', ''
 
 logger = helpers.init_logger('search', config.LOG_PATH)
 
