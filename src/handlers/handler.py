@@ -18,7 +18,7 @@ def run(send_spec, recv_spec, handlers):
     else:
       method = req.headers.get('METHOD')
 
-      cody = 500
+      code = 500
       status = 'Internal Server Error'
       response = 'Server Error'
       try:
