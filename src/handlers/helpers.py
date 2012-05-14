@@ -12,7 +12,7 @@ def init_logger(name, log_path):
   formatter = logging.Formatter(FORMAT)
 
   file_handler = logging.FileHandler(
-    filename = LOG_PATH, mode = 'a', encoding = 'utf-8')
+    filename = log_path, mode = 'a', encoding = 'utf-8')
   file_handler.setFormatter(formatter)
 
   stream_handler = logging.StreamHandler()
