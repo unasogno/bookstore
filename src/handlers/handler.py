@@ -17,7 +17,6 @@ def run(handlers):
     if req.is_disconnect():
       continue
     else:
-      query_string = req.headers.get('QUERY')
       method = req.headers.get('METHOD')
 
       cody = 500
