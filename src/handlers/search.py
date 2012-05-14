@@ -6,6 +6,7 @@ import config
 
 def get_search(url, header, body):
   query = req.headers.get('QUERY')
+  print query
 
 logger = helpers.init_logger('search', config.LOG_PATH)
 
