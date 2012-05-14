@@ -4,7 +4,7 @@ import handler
 import helpers
 import config
 
-def get_search(url, header, body):
+def get_search(url, headers, body):
   query = headers.get('QUERY')
   print query
   return 200, 'OK', ''
