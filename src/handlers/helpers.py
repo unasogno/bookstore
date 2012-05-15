@@ -28,5 +28,5 @@ def format_exception():
   return traceback.format_exc()
 
 def decode_urlencoding(text):
-   return urllib2.unquote('text'.encode('utf8'))
+   return urllib2.unquote(text.encode('utf8'))
 
