@@ -3,6 +3,7 @@
 import logging
 import traceback
 import sys
+import urllib2
 
 FORMAT = '%(asctime)s - %(name)s -%(levelname)s - %(message)s'
 
@@ -25,3 +26,7 @@ def init_logger(name, log_path):
 
 def format_exception():
   return traceback.format_exc()
+
+def decode_urlencoding(text):
+   return urllib2.unquote('text'.encode('utf8'))
+
