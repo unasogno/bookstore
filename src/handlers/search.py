@@ -2,6 +2,7 @@
 
 import xapian
 from mmseg import seg_txt
+import json
 import handler
 import helpers
 import config
@@ -30,11 +31,13 @@ def get_search(url, headers, body):
   print '%i results found.' % matches.get_matches_estimated()
   print 'Result - %i:' % matches.size()
 
+  r = []
   for m in matches:
     print '%i: %i%% docid=%i [%s]' % (m.rank + 1, m.percent, m.docid,\
     m.document.get_data())
+    r.append(m.document.get_data())
 
-  return 200, 'OK', ''
+  return 200, 'OK', json.dumps(r) 
 
 logger = helpers.init_logger('search', config.LOG_PATH)
 
