@@ -9,7 +9,7 @@ import config
 def get_search(url, headers, body):
   query = headers.get('QUERY')
   params = dict((n,v) for n, v in (i.split('=', 1) for i in query.split('&')))
-  text = params['terms']
+  text = params['query']
   search_query = helpers.decode_urlencoding(text)
   # helpers.log_search_query(search_query)
 
