@@ -18,7 +18,7 @@ def get(path, query, body):
     book_id = path.split('/')[1]
     
     if (not book_id.isdigit()):
-      return 400, 'Bad Request', 'book id expected'
+      return 400, 'Bad Request', 'book id expected', None
     
     arguments = { 'book_id': book_id }  
         
