@@ -54,10 +54,11 @@ while True:
     code = 500
     status = 'Internal Server Error'
     response = 'Server Error'
+    headers = None
     try:
-      code, status, response = handlers[method](
+      code, status, response, headers = handlers[method](
         req.path.split('/book', 1)[1], query_string, req.body)
     except Exception as ex:
       logger.error("Failed to handle request: %s - %s", req, ex)
     finally:
-      conn.reply_http(req, response, code, status)
+      conn.reply_http(req, response, code, status, headers)

@@ -22,7 +22,8 @@ def get(path, query, body):
     
     arguments = { 'book_id': book_id }  
         
-  return 200, 'OK', da.query_book(arguments)
+  return 200, 'OK', da.query_book(arguments), {
+    'Content-Type': 'application/json;charset=UTF-8'}
 
 def post(path, query, body):
   pass
