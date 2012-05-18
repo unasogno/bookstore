@@ -48,7 +48,7 @@ if __name__ == '__main__':
   
   try:
     handler_config = config.HANDLER_CONFIG['search']
-    handler.run(config.send_spec, config.recv_spec, handlers)
+    handler.run(handler_config.send_spec, handler_config.recv_spec, handlers)
   except:
     logger.error(helpers.format_exception())
 else:
