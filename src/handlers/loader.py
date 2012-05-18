@@ -7,7 +7,8 @@ import helpers
 
 if __name__ == '__main__':
   logger = helpers.init_logger('loader', config.LOG_PATH)
-  for handler_config in config.HANDLER_CONFIG:
+  for name in config.HANDLER_CONFIG:
+    handler_config = config.HANDLER_CONFIG[name]
     try:
       exec 'import ' + handler_config.module_name
       process = Process(
