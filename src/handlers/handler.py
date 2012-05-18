@@ -4,6 +4,8 @@ from mongrel2 import handler
 import json
 from uuid import uuid4
 
+handlers_registry = {}
+
 def run(send_spec, recv_spec, handlers):
   sender_id = uuid4().hex
 
@@ -21,15 +23,14 @@ def run(send_spec, recv_spec, handlers):
       code = 500
       status = 'Internal Server Error'
       response = 'Server Error'
+      headers = None
       try:
         if method not in handlers:
           code = 405
           status = 'Method Not Allowed'
           response = 'The given method of %s is not supported' % method
         else:
-          code, status, response = handlers[method](
+          code, status, response, headers = handlers[method](
             req.path, req.headers, req.body)
-      except:
-        raise
       finally:
-        conn.reply_http(req, response, code, status)
+        conn.reply_http(req, response, code, status, headers)

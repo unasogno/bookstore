@@ -7,11 +7,11 @@ import handler
 import helpers
 import config
 
-def get_search(url, headers, body):
+def get(url, headers, body):
   query = headers.get('QUERY')
   params = dict((n,v) for n, v in (i.split('=', 1) for i in query.split('&')))
   if 'query' not in params:
-    return 400, 'Bad Request', 'query field is not found.'
+    return 400, 'Bad Request', 'query field is not found.', None
   text = params['query']
   search_query = helpers.decode_urlencoding(text)
   # helpers.log_search_query(search_query)
@@ -28,7 +28,7 @@ def get_search(url, headers, body):
   q = xapian.Query(xapian.Query.OP_OR, l)
 
   enquire.set_query(q)
-  matches = enquire.get_mset(0, 10)
+  matches = enquire.get_mset(0, 100)
 
   print '%i results found.' % matches.get_matches_estimated()
   print 'Result - %i:' % matches.size()
@@ -39,12 +39,17 @@ def get_search(url, headers, body):
     m.document.get_data())
     r.append(m.document.get_data())
 
-  return 200, 'OK', json.dumps(r) 
+  return 200, 'OK', json.dumps(r), None 
 
+handlers = { 'GET': get }
 logger = helpers.init_logger('search', config.LOG_PATH)
 
-try:
-  handlers = { 'GET': get_search }
-  handler.run("tcp://127.0.0.1:9993", "tcp://127.0.0.1:9992", handlers)
-except:
-  logger.error(helpers.format_exception())
+if __name__ == '__main__':
+  
+  try:
+    handler_config = config.HANDLER_CONFIG['search']
+    handler.run(config.send_spec, config.recv_spec, handlers)
+  except:
+    logger.error(helpers.format_exception())
+else:
+  handler.handlers_registry[__name__] = handlers
