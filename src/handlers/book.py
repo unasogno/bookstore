@@ -36,7 +36,7 @@ def delete(path, query, body):
 
 handlers = {
   'PUT': put, 'GET': get, 'post': post, 'delete': delete }
-
+logger = helpers.init_logger('book', config.LOG_PATH)
 
 if __name__ == '__main__':
   
