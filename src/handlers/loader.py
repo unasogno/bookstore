@@ -12,7 +12,7 @@ if __name__ == '__main__':
       exec 'import ' + handler_config.module_name
       process = Process(
         target = handler.run,
-        name = handler_config.module_name
+        name = handler_config.module_name,
         args = (
           handler_config.send_spec, 
           handler_config.recv_spec, 
