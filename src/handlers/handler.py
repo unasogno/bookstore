@@ -3,21 +3,27 @@
 from mongrel2 import handler
 import json
 from uuid import uuid4
+import helpers
+import config
 
 handlers_registry = {}
 
 def run(send_spec, recv_spec, handlers):
+  logger = helpers.init_logger('handler', config.LOG_PATH)
   sender_id = uuid4().hex
 
   conn = handler.Connection(
     sender_id, send_spec, recv_spec)
 
   while True:
+    logger.debug('wait for request')
     req = conn.recv()
 
     if req.is_disconnect():
+      logger.debug('request disconnected')
       continue
     else:
+      logger.debug('incoming request')
       method = req.headers.get('METHOD')
 
       code = 500
@@ -34,3 +40,4 @@ def run(send_spec, recv_spec, handlers):
             req.path, req.headers, req.body)
       finally:
         conn.reply_http(req, response, code, status, headers)
+        logger.debug('request handled')
