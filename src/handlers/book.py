@@ -18,7 +18,7 @@ def get(path, query, body):
   if ('/' == path.strip()):
     arguments = __extract_arguments(query)
   else:
-    book_id = path.split('/')[1]
+    book_id = path.split('/')[-1]
     
     if (not book_id.isdigit()):
       return 400, 'Bad Request', 'book id expected', None
