@@ -72,13 +72,13 @@ function getHeaders(books) {
 }
 
 function renderTableHeaders(headers, buffer) {
-  buffer.push("<th>");
+  buffer.push("<tr>");
   for(var i = 0; i < headers.length; i++) {
-    buffer.push("<td>");
+    buffer.push("<th>");
     buffer.push(headers[i]);
-    buffer.push("</td>");
+    buffer.push("</th>");
   }
-  buffer.push("</th>");
+  buffer.push("</tr>");
 }
 
 function renderRow(book, headers, buffer) {
