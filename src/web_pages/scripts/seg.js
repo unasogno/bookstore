@@ -73,9 +73,9 @@ function getHeaders(books) {
 
 function renderTableHeaders(headers, buffer) {
   buffer.push("<th>");
-  for(var name in headers) {
+  for(var i = 0; i < headers.length; i++) {
     buffer.push("<td>");
-    buffer.push(name);
+    buffer.push(headers[i]);
     buffer.push("</td>");
   }
   buffer.push("</th>");
@@ -83,9 +83,9 @@ function renderTableHeaders(headers, buffer) {
 
 function renderRow(book, headers, buffer) {
   buffer.push("<tr>");
-  for (var header in headers) {
+  for (var i = 0; i < headers.length; i++) {
     buffer.push("<td>");
-    buffer.push(book[header]);
+    buffer.push(book[headers[i]]);
     buffer.push("</td>");
   }
   buffer.push("</tr>");
