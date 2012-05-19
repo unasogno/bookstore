@@ -41,24 +41,52 @@ function loadBooks(idString) {
   $.ajax({
     url: service_url,
     success: function(data, status, jqXHR) {
-      listBooks(data);
+      renderBooks(data);
     },
     error: onError,
   });
 }
 
-function listBooks(books) {
+function renderBooks(books) {
   var lines = new Array();
   lines.push("<table>");
+
+  var headers = getHeaders(books);
+  renderTableHeaders(headers, lines);
+
   for (var i = 0; i < books.length; i++) {
-    lines.push("<tr>");
-    lines.push("<td>");
-    lines.push(books[i].title);
-    lines.push("</td>");
-    lines.push("</tr>");
+    renderRow(book[i], headers, lines);
   }
   lines.push("</table>");
   $("#result").html(lines.join(""));
+}
+
+function getHeaders(books) {
+  var book = books[0];
+  var headers = new Array();
+  for(var name in book) {
+    headers.push(name);
+  }
+}
+
+function renderTableHeaders(headers, buffer) {
+  buffer.push("<th>");
+  for(var name in headers) {
+    buffer.push("<td>");
+    buffer.push(name);
+    buffer.push("</td>");
+  }
+  buffer.push("</th>");
+}
+
+function renderRow(book, headers, buffer) {
+  buffer.push("<tr>");
+  for (var header in headers) {
+    buffer.push("<td>");
+    buffer.push(book[header]);
+    buffer.push("</td>");
+  }
+  buffer.push("</tr>");
 }
 
 $(document).ready(function(){
