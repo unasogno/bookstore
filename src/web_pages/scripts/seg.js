@@ -2,6 +2,7 @@
 $(document).ready(function(){
   $("#submit").click(function(){
     var query = $("input#query").val();
+    query = encodeURI(query);
     if (0 != query.length) {
       var ajax_url = "/search?query=".concat(query);
       alert(ajax_url);
