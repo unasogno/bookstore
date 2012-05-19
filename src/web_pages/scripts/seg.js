@@ -30,11 +30,10 @@ function onError(jqXHR, status, errorThrown) {
 function onComplete(jqXHR, status) {
   if (null == search_result) return;
   if (undefined == search_result) return;
+  if ('' == search_result) return;
 
   var books = loadBooks(search_result);
   if (0 == books.length) return;
-
-  listBooks(books);
 }
 
 function loadBooks(idString) {
