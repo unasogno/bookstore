@@ -1,7 +1,6 @@
 var search_result;
 
 function submitSearch(query) {
-  var query = $("input#query").val();
   query = encodeURI(query);
   if (0 != query.length) {
     var ajax_url = "/search?query=".concat(query);
@@ -18,7 +17,6 @@ function submitSearch(query) {
 }
 
 function onSuccess(data, status, jqXHR) {
-  alert(status);
   search_result = data;
 }
 
@@ -66,16 +64,6 @@ function listBooks(books) {
 $(document).ready(function(){
   $("#submit").click(function(){
     var query = $("input#query").val();
-    query = encodeURI(query);
-    if (0 != query.length) {
-      var ajax_url = "/search?query=".concat(query);
-      alert(ajax_url);
-      $.ajax({
-        url: "/search?query=".concat(query),
-        success: onSuccess,
-        error: onError,
-        complete: onComplete
-      });
-    }
+    submitSearch(query);
   });
 });
