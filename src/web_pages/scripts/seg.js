@@ -1,3 +1,18 @@
+var search_result;
+function onSuccess(data, status, jqXHR) {
+  alert(status);
+  search_result = data;
+}
+
+function onError(jqXHR, status, errorThrown) {
+  alert(status);
+  search_result = null;
+}
+
+function onComplete(jqXHR, status) {
+  alert(status);
+  alert(search_result);
+}
 
 $(document).ready(function(){
   $("#submit").click(function(){
@@ -8,15 +23,9 @@ $(document).ready(function(){
       alert(ajax_url);
       $.ajax({
         url: "/search?query=".concat(query),
-        success: function(data, status, jqXHR) {
-          alert(data);
-        },
-        error: function(jqXHR, status, errorThrown) {
-          alert(status);
-        },
-        complete: function(jqXHR, status) {
-          alert('complete');
-        }
+        success: onSuccess,
+        error: onError,
+        complete: onComplete
       });
     }
   });
