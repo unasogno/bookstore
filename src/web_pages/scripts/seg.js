@@ -55,7 +55,7 @@ function renderBooks(books) {
   renderTableHeaders(headers, lines);
 
   for (var i = 0; i < books.length; i++) {
-    renderRow(book[i], headers, lines);
+    renderRow(books[i], headers, lines);
   }
   lines.push("</table>");
   $("#result").html(lines.join(""));
