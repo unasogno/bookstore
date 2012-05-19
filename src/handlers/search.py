@@ -17,8 +17,12 @@ def get(url, headers, body):
   text = params['query']
   search_query = helpers.decode_urlencoding(text)
   # helpers.log_search_query(search_query)
+  global logger
+  logger.debug('incoming query: %s', text)
 
   terms = seg_txt(search_query)
+
+  logger.debug('terms from query: %s', terms)
 
   database = xapian.Database('../indexes/')
   enquire = xapian.Enquire(database)
@@ -37,9 +41,11 @@ def get(url, headers, body):
 
   r = []
   for m in matches:
-    print '%i: %i%% docid=%i [%s]' % (m.rank + 1, m.percent, m.docid,\
-    m.document.get_data())
+    # print '%i: %i%% docid=%i [%s]' % (m.rank + 1, m.percent, m.docid,\
+    # m.document.get_data())
     r.append(m.document.get_data())
+
+  print json.dumps(r)
 
   return 200, 'OK', json.dumps(r), None 
 
