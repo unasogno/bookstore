@@ -52,6 +52,7 @@ function renderBooks(books) {
   lines.push("<table>");
 
   var headers = getHeaders(books);
+  if (null == headers || undefined == headers) return;
   renderTableHeaders(headers, lines);
 
   for (var i = 0; i < books.length; i++) {
@@ -67,6 +68,7 @@ function getHeaders(books) {
   for(var name in book) {
     headers.push(name);
   }
+  return headers;
 }
 
 function renderTableHeaders(headers, buffer) {
