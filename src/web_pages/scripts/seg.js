@@ -32,8 +32,7 @@ function onComplete(jqXHR, status) {
   if (undefined == search_result) return;
   if ('' == search_result) return;
 
-  var books = loadBooks(search_result);
-  if (0 == books.length) return;
+  loadBooks(search_result);
 }
 
 function loadBooks(idString) {
@@ -43,16 +42,11 @@ function loadBooks(idString) {
   var service_url = "/book/".concat(id);
   $.ajax({
     url: service_url,
-    success: onLoadBooksSuccess,
+    success: function(data, status, jqXHR) {
+      listBooks(data);
+    },
     error: onError,
   });
-}
-
-function onLoadBooksSuccess(data, status, jqXHR) {
-  var book = jQuery.parseJSON(data);
-  var books = [book];
-
-  listBooks(books);
 }
 
 function listBooks(books) {
