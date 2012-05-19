@@ -7,13 +7,13 @@ function submitSearch(query) {
     var ajax_url = "/search?query=".concat(query);
     console.log(ajax_url);
     $.ajax({
-      url: "/search?query=".concat(query),
+      url: ajax_url,
       success: onSuccess,
       error: onError,
       complete: onComplete
     });
   } else {
-    alert('请输入搜索内容');
+    alert('no input');
   }
 }
 
@@ -30,9 +30,44 @@ function onError(jqXHR, status, errorThrown) {
 function onComplete(jqXHR, status) {
   if (null == search_result) return;
   if (undefined == search_result) return;
-  idList = jQuery.parseJSON(search_result);
-  if (0 == idList.length) return;
-  alert(idList[0]);
+
+  var books = loadBooks(search_result);
+  if (0 == books.length) return;
+
+  listBooks(books);
+}
+
+function loadBooks(idString) {
+  var idList = jQuery.parseJSON(idString);
+  if (0 == idList.length) return [];
+  var id = idList[0];
+  var service_url = "/book/".concat(id);
+  $.ajax({
+    url: service_url,
+    success: onLoadBooksSuccess,
+    error: onError,
+  });
+}
+
+function onLoadBooksSuccess(data, status, jqXHR) {
+  var book = jQuery.parseJSON(data);
+  var books = [book];
+
+  listBooks(books);
+}
+
+function listBooks(books) {
+  var lines = new Array();
+  lines.push("<table>");
+  for (var i = 0; i < books.length; i++) {
+    lines.push("<tr>");
+    lines.push("<td>");
+    lines.push(books[i].title);
+    lines.push("</td>");
+    lines.push("</tr>");
+  }
+  lines.push("</table>");
+  $("#result").html(lines.join(""));
 }
 
 $(document).ready(function(){
