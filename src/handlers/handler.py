@@ -39,5 +39,6 @@ def run(send_spec, recv_spec, handlers):
           code, status, response, headers = handlers[method](
             req.path, req.headers, req.body)
       finally:
+        logger.debug('Sending response - %s', response)
         conn.reply_http(req, response, code, status, headers)
-        logger.debug('request handled')
+        logger.debug('Request handled')
