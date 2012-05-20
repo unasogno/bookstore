@@ -10,5 +10,6 @@ class HandlerConfig(object):
 LOG_PATH = 'log/search.log'
 HANDLER_CONFIG = {
     'search': HandlerConfig('search', 'tcp://127.0.0.1:9993', 'tcp://127.0.0.1:9992'),
-    'book': HandlerConfig('book', 'tcp://127.0.0.1:9995', 'tcp://127.0.0.1:9994')
+    'book': HandlerConfig('book', 'tcp://127.0.0.1:9995', 'tcp://127.0.0.1:9994'),
+    'books': HandlerConfig('books', 'tcp://127.0.0.1:9997', 'tcp://127.0.0.1:9996')
   }

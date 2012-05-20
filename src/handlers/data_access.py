@@ -75,3 +75,36 @@ def query_book(d):
     finally:
         db.close()
         
+def query_books(id_list):
+    global server, schema, username, password
+    
+    db = mysql.connect(
+      server, username, password, schema, charset = 'utf8', use_unicode = True);
+
+    sql = '''
+          select book_id,
+          title, isbn, name as publisher, class, publish_date, author, barcode,
+          list_price, sheet_numbers, folio, print_type, comments
+          from book b
+          inner join publisher p
+            on b.publisher_id = p.publisher_id
+          where book_id in (%s);
+          ''' % id_list
+
+    print sql
+
+    try:    
+        db.query(sql)
+        r = db.store_result()
+        if 0 == r.num_rows():
+          return json.dumps([])
+        rows = r.fetch_row(maxrows = 0, how = 0)
+        json_str = dump_json(rows)
+        db.commit()
+        return json_str
+    except:
+        raise
+        db.rollback()
+    finally:
+        db.close()
+        
