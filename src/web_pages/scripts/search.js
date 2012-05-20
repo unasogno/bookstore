@@ -34,8 +34,19 @@ function onComplete(jqXHR, status) {
 }
 
 function loadBooks(idString) {
-  var idList = jQuery.parseJSON(idString);
-  if (0 == idList.length) return [];
+  var ids = jQuery.parseJSON(idString);
+  if (0 == ids.length) return;
+
+  $.ajax({
+    url: "/books",
+    type: "POST",
+    data: { idList: ids },
+    success: function(data, status, jqXHR) {
+      renderBooks(data);
+    },
+    error: onError,
+  });
+/*
   var id = idList[0];
   var service_url = "/book/".concat(id);
   $.ajax({
@@ -45,6 +56,7 @@ function loadBooks(idString) {
     },
     error: onError,
   });
+*/
 }
 
 function renderBooks(books) {
