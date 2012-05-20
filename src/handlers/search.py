@@ -9,7 +9,7 @@ import config
 
 def get(url, headers, body):
   query = headers.get('QUERY')
-  if query.strip() == '':
+  if query == None or query.strip() == '':
     return 400, 'Bad Request', 'query field is not found.', None
   params = dict((n,v) for n, v in (i.split('=', 1) for i in query.split('&')))
   if 'query' not in params:
