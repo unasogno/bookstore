@@ -40,7 +40,7 @@ function loadBooks(idString) {
   $.ajax({
     url: "/books",
     type: "POST",
-    data: { idList: ','.join(ids) },
+    data: { idList: ids.join() },
     success: function(data, status, jqXHR) {
       renderBooks(data);
     },
