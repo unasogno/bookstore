@@ -91,8 +91,6 @@ def query_books(id_list):
           where book_id in (%s);
           ''' % id_list
 
-    print sql
-
     try:    
         db.query(sql)
         r = db.store_result()
