@@ -44,7 +44,12 @@ function loadBooks(idString) {
     success: function(data, status, jqXHR) {
       renderBooks(data);
     },
-    error: onError,
+    error: function(jqXHR, status, errorThrown) {
+      alert(status);
+    },
+    complete: function(jqXHR, status) {
+      alert(status);
+    }
   });
 /*
   var id = idList[0];
