@@ -12,6 +12,7 @@ def __extract_arguments(s):
   return dict((n,v) for n, v in (i.split('=', 1) for i in s.split('&')))
 
 def post(path, query, body):
+  logger.debug('handling incoming request - %s', 'None' if None == body else body)
   if None == body:
     return 400, 'Bad Request', 'book id expected', None
   
@@ -22,6 +23,7 @@ def post(path, query, body):
       return 400, 'Bad Request', 'book id expected', None
 
     id_str = arguments['idList']
+    logger.debug('id list extracted - %s', id_str)
     if '' == id_str.strip():
       return 400, 'Bad Request', 'book id expected', None
     '''  
