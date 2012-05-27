@@ -6,7 +6,7 @@
       $(document).ready(function() {
         var cookies = $.cookies.get();
         console.log(cookies);
-        if (cookies == null || cookies == undefined || cookies.length == 0) {
+        if (cookies == null || typeof cookies === "undefined" || cookies.length == 0) {
           var options = {
             domain: "173.255.223.248",
             expiresAt: new Date(2012, 12, 31)
