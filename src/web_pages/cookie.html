@@ -5,7 +5,7 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var cookies = $.cookies.get();
-        alert(typeof cookies);
+        console.log(cookies);
         if (cookies == null || cookies.length == 0) {
           var options = {
             domain: "173.255.223.248",
