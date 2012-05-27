@@ -1,18 +1,62 @@
 <html>
   <head>
-    <title>Search for books</title>
-    <script type="text/javascript" src="scripts/jquery-1.7.2.js" ></script>
-    <script type="text/javascript" src="scripts/search.js" ></script>
-    <style type="text/css">
-    </style>
+    <meta http-quiv="Content/-Type" content="text/html"; charset="utf-8" />
+    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
+    <link href="css/wholesaler.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="scripts/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery-ui-1.8.20.custom.min.js"></script>
+    <title>图书汇</title>
   </head>
   <body>
-    <p>
-      <input id="query" type="text" size="50" name="query" ></input>
-      <input id="submit" type="submit" value="search" />
-    </p>
-    <div id="result" class="table">
-      <p>The result goes here.</p>
+    <div id="container" >
+      <div id="header" class="ui-widget-header" >
+        <div id="title">图书汇</div>
+        <div id="login"><a href="#login">登录</a></div>
+      </div>
+      <div id="body" class="ui-widget-content" >
+        <div id="search">
+          <div id="search-label" >搜索图书：</div>
+          <input id="search-box" type="text"></input>
+    		  <ul id="icons" class="ui-widget ui-helper-clearfix">
+    		    <li class="ui-state-default ui-corner-all" title=".ui-icon-search">
+              <span class="ui-icon ui-icon-search"></span>
+            </li>
+    		  </ul>
+        </div>
+        <div id="search-result-container">
+          <table id="search-result" class = "ui-widget">
+            <tr>
+              <th class="ui-widget-header" >书名</th>
+              <th class="ui-widget-header">书号</th>
+              <th class="ui-widget-header" >出版社</th>
+              <th class="ui-widget-header" >出版年份</th>
+              <th class="ui-widget-header" >分类</th>
+              <th class="ui-widget-header" >定价</th>
+              <th class="ui-widget-header" >操作</th>
+            </tr>
+            <tr>
+              <td class="ui-widget-content" >聆听自然的歌唱</td>
+              <td class="ui-widget-content" >978-7-5402-2629-9</td>
+              <td class="ui-widget-content" >北京燕山</td>
+              <td class="ui-widget-content" >2011</td>
+              <td class="ui-widget-content" >X.</td>
+              <td class="ui-widget-content" >25.8</td>
+              <td class="ui-widget-content" >
+    		        <ul id="icons" class="ui-widget ui-helper-clearfix">
+    		          <li class="ui-state-default ui-corner-all" title="加入书单">
+                    <span class="ui-icon ui-icon-plus"></span>
+                  </li>
+    		          <li class="ui-state-default ui-corner-all" title="从搜索结果中删除">
+                    <span class="ui-icon ui-icon-trash"></span>
+                  </li>
+    		        </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div id="footer" class="ui-widget-header">页脚
+      </div>
     </div>
   </body>
 </html>
