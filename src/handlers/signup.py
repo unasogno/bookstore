@@ -10,16 +10,25 @@ def put(path, headers, body):
   pass
 
 def get(path, headers, body):
+  global logger
+
   query = headers.get('QUERY')
   arguments = helpers.parse_query_string(query)
   with open('priv.txt', 'r') as fp:
     pem = fp.read()
     fp.close()
   priv = rsa.PrivateKey.load_pkcs1(pem)
-  message = rsa.decrypt(arguments['cipher'], priv)
+  cipher = arguments['cipher']; 
+  logger.debug('cipher = %s', cipher)
 
-  return 200, 'OK', message, {
-    'Content-Type': 'text/plain'}
+  try:
+    message = rsa.decrypt(cipher, priv)
+
+    return 200, 'OK', message, {
+      'Content-Type': 'text/plain'}
+  except DecryptionError:
+    logger.error(helpers.format_exception())
+    return 500, 'Internal Server Error', 'Decryption failed', {}
 
 def post(path, headers, body):
   pass
