@@ -26,7 +26,7 @@ def get(path, headers, body):
 
     return 200, 'OK', message, {
       'Content-Type': 'text/plain'}
-  except DecryptionError:
+  except rsa.DecryptionError:
     logger.error(helpers.format_exception())
     return 500, 'Internal Server Error', 'Decryption failed', {}
 
