@@ -20,7 +20,7 @@ def get(path, headers, body):
     fp.close()
   priv = rsa.PrivateKey.load_pkcs1(pem)
   cipher = arguments['cipher']
-  cipher = base64.b64decode(cipher)
+  cipher = helpers.decode_urlencoding(cipher)
   logger.debug('cipher = %s', cipher)
 
   try:
