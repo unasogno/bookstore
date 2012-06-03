@@ -2,6 +2,7 @@
 
 from mongrel2 import handler
 import json
+import Cookie
 from uuid import uuid4
 import helpers
 import config

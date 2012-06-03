@@ -30,3 +30,8 @@ def format_exception():
 def decode_urlencoding(text):
    return urllib2.unquote(text.encode('utf8'))
 
+def parse_query_string(query):
+  if (None == s):
+    return None;
+  return dict((n,v) for n, v in (i.split('=', 1) for i in s.split('&')))
+

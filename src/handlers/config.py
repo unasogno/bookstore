@@ -8,8 +8,11 @@ class HandlerConfig(object):
     self.recv_spec = recv_spec
 
 LOG_PATH = 'log/search.log'
+
 HANDLER_CONFIG = {
     'search': HandlerConfig('search', 'tcp://127.0.0.1:9993', 'tcp://127.0.0.1:9992'),
     'book': HandlerConfig('book', 'tcp://127.0.0.1:9995', 'tcp://127.0.0.1:9994'),
-    'books': HandlerConfig('books', 'tcp://127.0.0.1:9997', 'tcp://127.0.0.1:9996')
+    'books': HandlerConfig('books', 'tcp://127.0.0.1:9997', 'tcp://127.0.0.1:9996'),
+    'signup': HandlerConfig('signup', 'tcp//127.0.0.1:9989', 'tcp://127.0.0.1.9988')
+    'signin': HandlerConfig('signin', 'tcp//127.0.0.1:9987', 'tcp://127.0.0.1.9986')
   }
