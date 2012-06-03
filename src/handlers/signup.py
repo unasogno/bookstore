@@ -12,7 +12,10 @@ def put(path, headers, body):
 def get(path, headers, body):
   query = headers.get('QUERY')
   arguments = helpers.parse_query_string(query)
-  priv = rsa.PrivateKey.load_pkcs1('priv.txt')
+  with open('priv.txt', 'r') as fp:
+    pem = fp.read()
+    fp.close()
+  priv = rsa.PrivateKey.load_pkcs1(pem)
   message = rsa.decrypt(arguments['cipher'], priv)
 
   return 200, 'OK', message, {
