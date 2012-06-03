@@ -6,10 +6,11 @@ import handler
 import config
 import helpers
 
-def put(path, query, body):
+def put(path, headers, body):
   pass
 
-def get(path, query, body):
+def get(path, headers, body):
+  query = headers.get('QUERY')
   arguments = helpers.parse_query_string(query)
   priv = rsa.PrivateKey.load_pkcs1('priv.txt')
   message = rsa.decrypt(arguments['cipher'], priv)
@@ -17,10 +18,10 @@ def get(path, query, body):
   return 200, 'OK', message, {
     'Content-Type': 'text/plain'}
 
-def post(path, query, body):
+def post(path, headers, body):
   pass
 
-def delete(path, query, body):
+def delete(path, headers, body):
   pass
 
 handlers = {
