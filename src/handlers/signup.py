@@ -2,6 +2,7 @@
 
 import rsa
 import json
+import base64
 import handler
 import config
 import helpers
@@ -18,7 +19,8 @@ def get(path, headers, body):
     pem = fp.read()
     fp.close()
   priv = rsa.PrivateKey.load_pkcs1(pem)
-  cipher = arguments['cipher']; 
+  cipher = arguments['cipher']
+  cipher = base64.b64decode(cipher)
   logger.debug('cipher = %s', cipher)
 
   try:
