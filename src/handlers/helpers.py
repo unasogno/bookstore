@@ -31,7 +31,7 @@ def decode_urlencoding(text):
    return urllib2.unquote(text.encode('utf8'))
 
 def parse_query_string(query):
-  if (None == s):
+  if (None == query):
     return None;
-  return dict((n,v) for n, v in (i.split('=', 1) for i in s.split('&')))
+  return dict((n,v) for n, v in (i.split('=', 1) for i in query.split('&')))
 
