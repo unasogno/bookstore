@@ -21,10 +21,12 @@ def get(path, headers, body):
   priv = rsa.PrivateKey.load_pkcs1(pem)
   cipher = arguments['cipher']
   cipher = helpers.decode_urlencoding(cipher)
-  logger.debug('cipher = %s', cipher)
+  cipher = int(cipher, 16)
+  logger.debug('cipher = %d', cipher)
 
   try:
-    message = rsa.decrypt(cipher, priv)
+    crypto = rsa.transform.int2bytes(cipher)
+    message = rsa.decrypt(crypto, priv)
 
     return 200, 'OK', message, {
       'Content-Type': 'text/plain'}
