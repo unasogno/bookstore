@@ -40,6 +40,10 @@ def get(path, headers, body):
   if None == query:
     return 400, 'Bad Request', 'Missing argument(s)', {}
   arguments = helpers.parse_query_string(query)
+  if 'identity' not in arguments:
+    return 400, 'Bad Request', 'Missing argument(s)', {}
+  if 'password' not in arguments:
+    return 400, 'Bad Request', 'Missing argument(s)', {}
 
   try:
     priv = load_private()
