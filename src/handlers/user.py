@@ -9,6 +9,9 @@ import helpers
 class IdentityError(Exception):
   pass
 
+class DbError(Exception):
+  pass
+
 class Identity(object):
   @staticmethod
   def is_email(identity_str):
@@ -24,9 +27,12 @@ class Identity(object):
 
   @staticmethod
   def load(db, identity_str):
-    if Identity.is_email(identity_str):
+    if db == None: raise ValueError('db is None')
+
+    if Identity.is_email(identity_str) and db.email_exists(identity_str):
       return Identity(db, email = identity_str)
-    elif Identity.is_phone_number(identity_str):
+    elif Identity.is_phone_number(identity_str) and db.phone_number_exists(
+      identity_str):
       return Identity(db, phone_number = identity_str)
     else:
       raise IdentityError()
@@ -80,5 +86,34 @@ class Database(object):
       _logger.error(helpers.format_exception())
     finally:
       db.close()
+
+  def email_exists(self, email):
+    pass
+
+  def phone_number_exists(self, phone_number):
+    pass
+
+  def identity_exists(self, field, identity):
+    statement = '''
+                select count(1) from `user` where %s = '%s';
+                '''
+    db = mysql.connect(
+      config.DB_HOST, config.DB_USER, config.DB_PASSWORD, config.DB_INST)
+
+    try:
+      db.query(statement % (field, identity))
+      r = db.store_result()
+      rows = r.fetch_row(1)
+      count = rows[0][0]
+
+    except:
+      _logger.error(helpers.format_exception())
+    finally:
+      db.close()
+
+    if count > 1:
+      raise DbError(
+        'More than one user with the identity "%s" is found' % identity)
+    return count == 1
 
 _logger = helpers.init_logger(__name__, config.LOG_PATH) 
