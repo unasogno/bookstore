@@ -20,7 +20,7 @@ class Identity(object):
   def load(db, identity_str):
     if Identity.is_email(identity_str):
       return Identity(db, email = identity_str)
-    else if Identity.is_phone_number(identity_str):
+    elif Identity.is_phone_number(identity_str):
       return Identity(db, phone_number = identity_str)
     else
       raise IdentityError()
