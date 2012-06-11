@@ -22,7 +22,7 @@ class Identity(object):
       return Identity(db, email = identity_str)
     elif Identity.is_phone_number(identity_str):
       return Identity(db, phone_number = identity_str)
-    else
+    else:
       raise IdentityError()
 
   def __init__(self, db, email = None, phone_number = None):
