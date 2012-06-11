@@ -177,3 +177,13 @@ create table high_water_mark
   primary key(entity_id, app_id)
 );
 
+-- 16
+create table `user`
+(
+  user_id int not null auto_increment,
+  password varchar(128) not null,
+  email varchar(256),
+  phone_number varchar(20),
+  status int not null default 0,
+  primary key (user_id)
+);
