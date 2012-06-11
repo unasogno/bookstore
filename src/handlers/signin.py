@@ -48,7 +48,7 @@ def get(path, headers, body):
   try:
     priv = load_private()
     identity_str = decrypt(arguments['identity'], priv)
-    identity = user.Identity.load(identity_str)
+    identity = user.Identity.load(user.Database(), identity_str)
 
     password = decrypt(arguments['password'], priv)
     identity.validate(identity, password)
