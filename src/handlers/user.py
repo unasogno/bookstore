@@ -1,7 +1,8 @@
 # -*- coding:utf8 -*-
 
-import MySQLdb as mysql
 import hashlib
+import re
+import MySQLdb as mysql
 import config
 import helpers
 
@@ -11,7 +12,9 @@ class IdentityError(Exception):
 class Identity(object):
   @staticmethod
   def is_email(identity_str):
-    return True
+    m = re.match(
+      '[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+', identity_str)
+    return m <> None
 
   @staticmethod
   def is_phone_number(identity_str):
