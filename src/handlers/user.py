@@ -1,6 +1,7 @@
 # -*- coding:utf8 -*-
 
 import MySQLdb as mysql
+import hashlib
 import config
 import helpers
 

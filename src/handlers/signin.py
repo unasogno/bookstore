@@ -1,7 +1,6 @@
 # _*_ coding=utf8 _*_
 
 import rsa
-import hashlib
 import json
 import base64
 import handler
