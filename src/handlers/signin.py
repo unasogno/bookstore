@@ -48,10 +48,10 @@ def get(path, headers, body):
   try:
     priv = load_private()
     identity_str = decrypt(arguments['identity'], priv)
-    identity = user.Identity.load(user.Database(), identity_str)
-
     password = decrypt(arguments['password'], priv)
-    identity.validate(identity, password)
+
+    identity = user.Identity.load(user.Database(), identity_str)
+    identity.validate(password)
 
     return 200, 'OK', 'validation passed.', {'Content-Type': 'text/plain'}
   except ValueError:
