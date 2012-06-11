@@ -71,7 +71,7 @@ logger = helpers.init_logger('signup', config.LOG_PATH)
 if __name__ == '__main__':
   
   try:
-    handler_config = config.HANDLER_CONFIG['signup']
+    handler_config = config.HANDLER_CONFIG['signin']
     handler.run(handler_config.send_spec, handler_config.recv_spec, handlers)
   except:
     logger.error(helpers.format_exception())
