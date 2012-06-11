@@ -12,12 +12,14 @@ class IdentityError(Exception):
 class Identity(object):
   @staticmethod
   def is_email(identity_str):
+    if len(identity_str) > 256: return False
     m = re.match(
       '[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+', identity_str)
     return m <> None
 
   @staticmethod
   def is_phone_number(identity_str):
+    if len(identity_str) > 11: return False
     return True
 
   @staticmethod

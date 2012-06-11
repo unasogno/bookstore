@@ -50,9 +50,13 @@ def get(path, headers, body):
     password = decrypt(arguments['password'], priv)
 
     identity = user.Identity.load(user.Database(), identity_str)
-    identity.validate(password)
-
-    return 200, 'OK', 'validation passed.', {'Content-Type': 'text/plain'}
+    if None == identity: 
+      message = 'The login of "%s" does not exist.' % identity_str
+      return 404, 'Not found', message, {}
+    if identity.validate(password):
+      return 200, 'OK', 'Validation passed.', {'Content-Type': 'text/plain'}
+    else:
+      return 401, 'Unauthorized', 'Incorrect password.', {}
   except ValueError:
     logger.error(helpers.format_exception())
     return 400, 'Bad Request', 'Missing argument(s).', {}
