@@ -71,7 +71,7 @@ def delete(path, headers, body):
 
 handlers = {
   'PUT': put, 'GET': get, 'post': post, 'delete': delete }
-logger = helpers.init_logger('signup', config.LOG_PATH)
+logger = helpers.init_logger('signin', config.LOG_PATH)
 
 if __name__ == '__main__':
   
