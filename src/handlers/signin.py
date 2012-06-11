@@ -37,6 +37,8 @@ def get(path, headers, body):
   global logger
 
   query = headers.get('QUERY')
+  if None == query:
+    return 400, 'Bad Request', 'Missing argument(s)', {}
   arguments = helpers.parse_query_string(query)
 
   try:
