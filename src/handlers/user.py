@@ -2,7 +2,11 @@
 
 import hashlib
 import re
+from datetime import datetime
+from uuid import uuid4
 import MySQLdb as mysql
+from Crypto.Cipher import AES
+import binascii
 import config
 import helpers
 
@@ -29,21 +33,29 @@ class Identity(object):
   def load(db, identity_str):
     if db == None: raise ValueError('db is None')
 
-    if Identity.is_email(identity_str) and db.email_exists(identity_str):
-      return Identity(db, email = identity_str)
-    elif Identity.is_phone_number(identity_str) and db.phone_number_exists(
-      identity_str):
-      return Identity(db, phone_number = identity_str)
+    if Identity.is_email(identity_str): 
+      user_id = db.get_user_id_by_email(identity_str)
+      if -1 <> user_id:
+        return Identity(db, user_id, email = identity_str)
+    if Identity.is_phone_number(identity_str):
+      user_id = db.get_user_id_by_phone_number(identity_str)
+      if -1 <> user_id:
+        return Identity(db, user_id, phone_number = identity_str)
     else:
       raise IdentityError()
 
-  def __init__(self, db, email = None, phone_number = None):
+  def __init__(self, db, user_id, email = None, phone_number = None):
     if db == None:
       raise ValueError('db is None.')
     if email == None and phone_number == None:
       raise ValueError('Either email or phone_number is None.')
+    if not is_email(email):
+      raise ValueError('Invalid email address - \'%s\'.' % email)
+    if not is_phone_number(phone_number):
+      raise ValueError('Invalid phone number - \'%s\'.' % phone_number)
 
     self._db = db
+    self.user_id = user_id
     self.email = email
     self.phone_number = phone_number
 
@@ -55,6 +67,46 @@ class Identity(object):
     stored = self._db.get_password(
       is_email, self.email if is_email else self.phone_number)
     return stored == password
+
+  def create_token(self):
+    secret = uuid4()
+    expire_date = datetime.now() + timedelta(days = 30)
+    token = self._encrypt_datetime(expire_date, secret.hex)
+
+    # char(16) in db. but the result can be 32 chars.
+    db.save_token(self.user_id, token, secret.hex)
+    return token
+
+  def _encrypt_datetime(self, date, secret):
+    year = str(date.year)
+    month = helpers.pad_str(str(date.month), 2)
+    day = helpers.pad_str(str(date.day), 2)
+    hour = helpers.pad_str(str(date.hour), 2)
+    minute = helpers.pad_str(str(date.minute), 2)
+    second = helpers.pad_str(str(date.second), 2)
+
+    text = helpers.pad_str(year + month + day + hour + minute + second, 16)
+
+    key = AES.new(secret)
+    cipher = key.encrypt(text)
+    return binascii.hexlify(cipher)
+
+  def _decrypt_datetime(self, cipher, secret):
+    cipher = binascii.unhexlify(cipher)
+    key = AES.new(secret)
+    text = key.decrypt(cipher)
+
+    if 16 <> len(text) or (not text.isdigit()): 
+      raise ValueError('Invalid cipher')
+
+    year = int(text[2:6])
+    month = int(text[7:8])
+    day = int(text[9:10])
+    hour = int(text[11:12])
+    minute = int(text[13:14])
+    second = int(text[15:16])
+
+    return datetime(year, month, day, hour, minute, second)
 
 class Database(object):
   def __init__(self):

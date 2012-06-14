@@ -48,13 +48,14 @@ def get(path, headers, body):
     priv = load_private()
     identity_str = decrypt(arguments['identity'], priv)
     password = decrypt(arguments['password'], priv)
-
-    identity = user.Identity.load(user.Database(), identity_str)
+    db = user.Database()
+    identity = user.Identity.load(db, identity_str)
     if None == identity: 
       message = 'The login of "%s" does not exist.' % identity_str
       return 404, 'Not found', message, {}
     if identity.validate(password):
-      return 200, 'OK', 'Validation passed.', {'Content-Type': 'text/plain'}
+      token = identity.create_token(db)
+      return 200, 'OK', token, {'Content-Type': 'text/plain'}
     else:
       return 401, 'Unauthorized', 'Incorrect password.', {}
   except ValueError:

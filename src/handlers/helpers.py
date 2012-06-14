@@ -35,3 +35,15 @@ def parse_query_string(query):
     return None;
   return dict((n,v) for n, v in (i.split('=', 1) for i in query.split('&')))
 
+def pad_str(str, total, pad_left = True, char = '0'):
+  length = total - len(str)
+  if length == 0: return str
+  if length < 0:
+    raise ValueError('string too long to pad - \'%s\'' % str)
+  if len(char) > 1:
+    raise ValueError('padding character too long - \'%s\'' % char)
+  if pad_left:
+    return char * length + str
+  else:
+    return str + char * length
+
