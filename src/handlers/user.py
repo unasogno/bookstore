@@ -27,6 +27,7 @@ class Identity(object):
 
   @staticmethod
   def is_phone_number(identity_str):
+    if None == identity_str: return False
     if len(identity_str) > 18: return False
     m = re.match(
       '^[\d]+[\-]\d+', identity_str)
@@ -53,10 +54,12 @@ class Identity(object):
       raise ValueError('db is None.')
     if email == None and phone_number == None:
       raise ValueError('Either email or phone_number is None.')
-    if not Identity.is_email(email):
-      raise ValueError('Invalid email address - \'%s\'.' % email)
-    if not Identity.is_phone_number(phone_number):
-      raise ValueError('Invalid phone number - \'%s\'.' % phone_number)
+    if email <> None:
+      if not Identity.is_email(email):
+        raise ValueError('Invalid email address - \'%s\'.' % email)
+    if phone_number <> None:
+      if not Identity.is_phone_number(phone_number):
+        raise ValueError('Invalid phone number - \'%s\'.' % phone_number)
 
     self._db = db
     self.user_id = user_id
