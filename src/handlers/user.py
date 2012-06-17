@@ -124,13 +124,15 @@ class Database(object):
     pass
 
   def save_token(self, user_id, token, secret):
+    global _logger
     sql = '''
           update `user` 
           set token = '%s', secret = '%s'
           where user_id = %d 
           ''' % (token, secret, user_id)
 
-    self._exec(sql)
+    total = self._exec(sql)
+    _logger.debug('%d user(s) updated.', total)
 
   def get_password(self, identity_is_email, identity):
     global _logger
@@ -211,6 +213,8 @@ class Database(object):
       db.query(statement)
       if None <> handler:
         return handler(db)
+      else:
+        return db.affected_rows()
     except:
       _logger.error(helpers.format_exception())
       raise
