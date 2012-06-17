@@ -152,6 +152,25 @@ class Database(object):
     finally:
       db.close()
 
+  def get_user_id_by_phone_number(self, phone_number):
+    return self.__get_user_id_by_identity('phone_number', phone_number)
+
+  def get_user_id_by_email(self, email):
+    return self.__get_user_id_by_identity('email', email)
+
+  def __get_user_id_by_identity(self, identity_type, identity):
+    sql = '''
+          select user_id from `user` where %s = '%s'
+          ''' % (identity_type, identity)
+
+    def handler(db):
+      r = db.store_result()
+      if db.affected_rows() == 0: return -1
+      r.fetch_row()  
+      return user_id
+
+    return self._exec(hanler)
+
   def email_exists(self, email):
     return self.identity_exists('email', email)
 
