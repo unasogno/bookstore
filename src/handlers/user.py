@@ -21,7 +21,7 @@ class Identity(object):
   def is_email(identity_str):
     if len(identity_str) > 256: return False
     m = re.match(
-      '^\w[\w\.-]+@[\w][.-\w]*.[a-zA-Z]+', identity_str)
+      '^\w[\w\.-]+@[\w][\.\-\w]*.[a-zA-Z]+', identity_str)
     if m == None: return False
     return m.group() == identity_str
 
