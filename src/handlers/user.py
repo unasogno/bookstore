@@ -53,9 +53,9 @@ class Identity(object):
       raise ValueError('db is None.')
     if email == None and phone_number == None:
       raise ValueError('Either email or phone_number is None.')
-    if not is_email(email):
+    if not Identity.is_email(email):
       raise ValueError('Invalid email address - \'%s\'.' % email)
-    if not is_phone_number(phone_number):
+    if not Identity.is_phone_number(phone_number):
       raise ValueError('Invalid phone number - \'%s\'.' % phone_number)
 
     self._db = db
