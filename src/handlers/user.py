@@ -21,13 +21,17 @@ class Identity(object):
   def is_email(identity_str):
     if len(identity_str) > 256: return False
     m = re.match(
-      '[a-zA-Z0-9+_\-\.]+@[0-9a-zA-Z][.-0-9a-zA-Z]*.[a-zA-Z]+', identity_str)
-    return m <> None
+      '^\w[\w\.-]+@[\w][.-\w]*.[a-zA-Z]+', identity_str)
+    if m == None: return False
+    return m.group() == identity_str
 
   @staticmethod
   def is_phone_number(identity_str):
-    if len(identity_str) > 11: return False
-    return True
+    if len(identity_str) > 18: return False
+    m = re.match(
+      '^[\d]+[\-]\d+', identity_str)
+    if m == None: return False
+    return m.group() == identity_str
 
   @staticmethod
   def load(db, identity_str):
