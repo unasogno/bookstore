@@ -170,8 +170,8 @@ class Database(object):
     def handler(db):
       r = db.store_result()
       if db.affected_rows() == 0: return -1
-      r.fetch_row()  
-      return user_id
+      rows = r.fetch_row() 
+      return rows[0][0]
 
     return self._exec(sql, handler)
 
