@@ -75,7 +75,7 @@ class Identity(object):
       is_email, self.email if is_email else self.phone_number)
     return stored == password
 
-  def create_token(self):
+  def create_token(self, db):
     secret = uuid4()
     expire_date = datetime.now() + timedelta(days = 30)
     token = self._to_token(expire_date)
