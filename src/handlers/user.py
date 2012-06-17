@@ -107,7 +107,7 @@ class Identity(object):
     minute = helpers.pad_str(str(date.minute), 2)
     second = helpers.pad_str(str(date.second), 2)
 
-    self.text = helpers.pad_str(year + month + day + hour + minute + second, 16)
+    return helpers.pad_str(year + month + day + hour + minute + second, 16)
 
   def _to_date(self, text):
     year = int(text[2:6])
