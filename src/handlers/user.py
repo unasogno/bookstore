@@ -169,7 +169,7 @@ class Database(object):
       r.fetch_row()  
       return user_id
 
-    return self._exec(hanler)
+    return self._exec(handler)
 
   def email_exists(self, email):
     return self.identity_exists('email', email)
