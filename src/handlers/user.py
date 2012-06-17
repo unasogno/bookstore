@@ -131,7 +131,12 @@ class Database(object):
           where user_id = %d 
           ''' % (token, secret, user_id)
 
-    total = self._exec(sql)
+    def handler(db):
+      rows = db.affected_rows()
+      db.commit()
+      return rows
+
+    total = self._exec(sql, handler)
     _logger.debug('%d user(s) updated.', total)
 
   def get_password(self, identity_is_email, identity):
