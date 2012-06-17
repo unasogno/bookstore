@@ -71,13 +71,27 @@ class Identity(object):
   def create_token(self):
     secret = uuid4()
     expire_date = datetime.now() + timedelta(days = 30)
-    token = self._encrypt_datetime(expire_date, secret.hex)
+    token = self._to_token(expire_date)
+    cipher = self._encrypt_token(token, secret.hex)
 
-    # char(16) in db. but the result can be 32 chars.
     db.save_token(self.user_id, token, secret.hex)
-    return token
+    return cipher
 
-  def _encrypt_datetime(self, date, secret):
+  def _encrypt_token(self, text, secret):
+    key = AES.new(secret)
+    cipher = key.encrypt(text)
+    return binascii.hexlify(cipher)
+
+  def _decrypt_token(self, cipher, secret):
+    cipher = binascii.unhexlify(cipher)
+    key = AES.new(secret)
+    text = key.decrypt(cipher)
+
+    if 16 <> len(text) or (not text.isdigit()): 
+      raise ValueError('Invalid cipher')
+    return text
+
+  def _to_token(self, date):
     year = str(date.year)
     month = helpers.pad_str(str(date.month), 2)
     day = helpers.pad_str(str(date.day), 2)
@@ -85,20 +99,9 @@ class Identity(object):
     minute = helpers.pad_str(str(date.minute), 2)
     second = helpers.pad_str(str(date.second), 2)
 
-    text = helpers.pad_str(year + month + day + hour + minute + second, 16)
+    self.text = helpers.pad_str(year + month + day + hour + minute + second, 16)
 
-    key = AES.new(secret)
-    cipher = key.encrypt(text)
-    return binascii.hexlify(cipher)
-
-  def _decrypt_datetime(self, cipher, secret):
-    cipher = binascii.unhexlify(cipher)
-    key = AES.new(secret)
-    text = key.decrypt(cipher)
-
-    if 16 <> len(text) or (not text.isdigit()): 
-      raise ValueError('Invalid cipher')
-
+  def _to_date(self, text):
     year = int(text[2:6])
     month = int(text[7:8])
     day = int(text[9:10])
@@ -111,6 +114,15 @@ class Identity(object):
 class Database(object):
   def __init__(self):
     pass
+
+  def save_token(self, user_id, token, secret):
+    sql = '''
+          update `user` 
+          set token = '%s', secret = '%s'
+          where user_id = %d 
+          ''' % (token, secret, user_id)
+
+    self._exec(sql)
 
   def get_password(self, identity_is_email, identity):
     global _logger
@@ -136,36 +148,46 @@ class Database(object):
 
     except:
       _logger.error(helpers.format_exception())
+      raise
     finally:
       db.close()
 
   def email_exists(self, email):
-    pass
+    return self.identity_exists('email', email)
 
   def phone_number_exists(self, phone_number):
-    pass
+    return self.identity_exists('phone_number', phone_number)
 
   def identity_exists(self, field, identity):
     statement = '''
                 select count(1) from `user` where %s = '%s';
-                '''
-    db = mysql.connect(
-      config.DB_HOST, config.DB_USER, config.DB_PASSWORD, config.DB_INST)
+                ''' % (field, identity)
 
-    try:
+    def handler(db):
       db.query(statement % (field, identity))
       r = db.store_result()
       rows = r.fetch_row(1)
-      count = rows[0][0]
+      return rows[0][0]
 
-    except:
-      _logger.error(helpers.format_exception())
-    finally:
-      db.close()
-
+    count = self._exec(statement, handler)
     if count > 1:
       raise DbError(
         'More than one user with the identity "%s" is found' % identity)
     return count == 1
+
+  def _exec(self, statement, handler = None):
+    global _logger
+    db = mysql.connect(
+      config.DB_HOST, config.DB_USER, config.DB_PASSWORD, config.DB_INST)
+
+    try:
+      db.query(statement)
+      if None <> handler:
+        return handler(db)
+    except:
+      _logger.error(helpers.format_exception())
+      raise
+    finally:
+      db.close()
 
 _logger = helpers.init_logger(__name__, config.LOG_PATH) 
