@@ -140,17 +140,12 @@ class Database(object):
     _logger.debug('%d user(s) updated.', total)
 
   def get_password(self, identity_is_email, identity):
-    global _logger
-    statement = '''
-                select `password` from `user` where %s = '%s';
-                '''
-    db = mysql.connect(
-      config.DB_HOST, config.DB_USER, config.DB_PASSWORD, config.DB_INST)
+    field = 'email' if identity_is_email else 'phone_number'
+    sql = '''
+          select `password` from `user` where %s = '%s';
+          ''' % (field, identity)
 
-    try:
-
-      field = 'email' if identity_is_email else 'phone_number'
-      db.query(statement % (field, identity))
+    def handler(db):
       r = db.store_result()
       total = db.affected_rows()
       if 1 < total: 
@@ -161,11 +156,7 @@ class Database(object):
       rows = r.fetch_row(total)
       return rows[0][0]
 
-    except:
-      _logger.error(helpers.format_exception())
-      raise
-    finally:
-      db.close()
+    return self._exec(sql, handler)
 
   def get_user_id_by_phone_number(self, phone_number):
     return self.__get_user_id_by_identity('phone_number', phone_number)
