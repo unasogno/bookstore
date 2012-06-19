@@ -171,7 +171,21 @@ class Database(object):
     _logger.debug('%d user(s) updated.', total)
 
   def load_token(self, user_id):
-    pass
+    sql = '''
+          select token, secret
+          from `user`
+          where user_id = %d
+          ''' % user_id
+
+    def handler(db):
+      r = db.store_result()
+      total = db.affected_rows()
+      if total == 0: return None
+      if total > 1: raise DbError()
+      rows = r.fetch_row(1)
+      return rows[0][0], rows[0][1]
+
+    return self._exec(sql, handler)
 
   def get_password(self, identity_is_email, identity):
     field = 'email' if identity_is_email else 'phone_number'
@@ -264,20 +278,20 @@ def verify_token(func):
     try:
       token_cipher = base64.b64decode(token)
     except:
-      return 400, 'Bad Request', 'Invalid token', {}
+      return 401, 'Unauthorized', 'Invalid token', {}
 
     field = 'UserID'
     if not field in headers:
       return 400 'Bad Request', 'User ID missing', {}
     user_id = headers[field]
+
     global db
     if None == db: raise ValueError('global varialbe \'db\' is None')
-    
     token_str, secret = db.load_token(user_id)
 
     token = Token(token_str, secret)
     if not token.verify(auth_token):
-      return 
+      return 401, 'Unauthorized', 'Invalid token', {}
     return func(path, headers, body)
 
   return impl
