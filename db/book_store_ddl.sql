@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `user`
   phone_number varchar(20),
   `status` int not null default 0,
   secret char(32) not null,
-  token char(16),
+  token varchar(128),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
   date_modified datetime not null,

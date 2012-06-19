@@ -23,12 +23,6 @@ def decrypt(cipher, priv):
   cipher = rsa.transform.int2bytes(cipher)
   return rsa.decrypt(cipher, priv)
 
-def create_with_email(identity, password):
-  pass
-
-def create_with_phone_number(identity, password):
-  pass
-
 def put(path, headers, body):
   pass
 

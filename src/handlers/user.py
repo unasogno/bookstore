@@ -8,6 +8,7 @@ from uuid import uuid4
 import MySQLdb as mysql
 from Crypto.Cipher import AES
 import binascii
+import base64
 import config
 import helpers
 
@@ -16,6 +17,50 @@ class IdentityError(Exception):
 
 class DbError(Exception):
   pass
+
+class Token(object):
+
+  @staticmethod
+  def to_token_str(date):
+    year = str(date.year)
+    month = helpers.pad_str(str(date.month), 2)
+    day = helpers.pad_str(str(date.day), 2)
+    hour = helpers.pad_str(str(date.hour), 2)
+    minute = helpers.pad_str(str(date.minute), 2)
+    second = helpers.pad_str(str(date.second), 2)
+
+    return helpers.pad_str(year + month + day + hour + minute + second, 16)
+
+  @staticmethod
+  def from_date(date, secret):
+    token_str = Token.to_token_str(date)
+    return Token(token_str, secret)
+
+  def __init__(self, token_str, secret):
+    if None == token_str: raise ValueError('token_str is None.')
+    if None == secret: raise ValueError('secret is None.')
+    self.__token_str = token_str
+    self.__secret = secret
+
+  def verify(self, cipher):
+    pass
+
+  def text(self):
+    return self.__token_str
+
+  def cipher(self):
+    key = AES.new(self.__secret)
+    cipher = key.encrypt(self.__token_str)
+    return binascii.hexlify(cipher)
+
+  def _decrypt_token(self, cipher):
+    cipher = binascii.unhexlify(cipher)
+    key = AES.new(self.__secret)
+    text = key.decrypt(cipher)
+
+    if 16 <> len(text) or (not text.isdigit()): 
+      raise ValueError('Invalid cipher')
+    return text
 
 class Identity(object):
   @staticmethod
@@ -79,25 +124,11 @@ class Identity(object):
   def create_token(self, db):
     secret = uuid4()
     expire_date = datetime.now() + timedelta(days = 30)
-    token = self._to_token(expire_date)
-    cipher = self._encrypt_token(token, secret.hex)
+    token = Token.from_date(expire_date, secret.hex)
+    cipher = token.cipher()
 
-    db.save_token(self.user_id, token, secret.hex)
+    db.save_token(self.user_id, token.text(), secret.hex)
     return cipher
-
-  def _encrypt_token(self, text, secret):
-    key = AES.new(secret)
-    cipher = key.encrypt(text)
-    return binascii.hexlify(cipher)
-
-  def _decrypt_token(self, cipher, secret):
-    cipher = binascii.unhexlify(cipher)
-    key = AES.new(secret)
-    text = key.decrypt(cipher)
-
-    if 16 <> len(text) or (not text.isdigit()): 
-      raise ValueError('Invalid cipher')
-    return text
 
   def _to_token(self, date):
     year = str(date.year)
@@ -138,6 +169,9 @@ class Database(object):
 
     total = self._exec(sql, handler)
     _logger.debug('%d user(s) updated.', total)
+
+  def load_token(self, user_id):
+    pass
 
   def get_password(self, identity_is_email, identity):
     field = 'email' if identity_is_email else 'phone_number'
@@ -216,5 +250,36 @@ class Database(object):
       raise
     finally:
       db.close()
+
+def verify_token(func):
+  def impl(path, headers, body):
+    if headers == None:
+      return 401, 'Unauthorized', 'Autorization missing',
+        {'WWW-Authorization': 'token required'}
+    field = 'Authorization'
+    if not field in headers:
+      return 401, 'Unauthorized', 'Autorization missing',
+        {'WWW-Authorization': 'token required'}
+    token_cipher = headers[field]
+    try:
+      token_cipher = base64.b64decode(token)
+    except:
+      return 400, 'Bad Request', 'Invalid token', {}
+
+    field = 'UserID'
+    if not field in headers:
+      return 400 'Bad Request', 'User ID missing', {}
+    user_id = headers[field]
+    global db
+    if None == db: raise ValueError('global varialbe \'db\' is None')
+    
+    token_str, secret = db.load_token(user_id)
+
+    token = Token(token_str, secret)
+    if not token.verify(auth_token):
+      return 
+    return func(path, headers, body)
+
+  return impl
 
 _logger = helpers.init_logger(__name__, config.LOG_PATH) 
