@@ -298,4 +298,4 @@ def verify_token(func):
   return impl
 
 _logger = helpers.init_logger(__name__, config.LOG_PATH)
-db = new Database()
+db = Database()
