@@ -269,12 +269,12 @@ class Database(object):
 def verify_token(func):
   def impl(path, headers, body):
     if headers == None:
-      return 401, 'Unauthorized', 'Autorization missing',
-        {'WWW-Authorization': 'token required'}
+      return 401, 'Unauthorized', 'Autorization missing', {
+        'WWW-Authorization': 'token required'}
     field = 'Authorization'
     if not field in headers:
-      return 401, 'Unauthorized', 'Autorization missing',
-        {'WWW-Authorization': 'token required'}
+      return 401, 'Unauthorized', 'Autorization missing', {
+        'WWW-Authorization': 'token required'}
     token_cipher = headers[field]
     try:
       auth_token = base64.b64decode(token_cipher)
