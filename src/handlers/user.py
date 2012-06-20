@@ -283,7 +283,7 @@ def verify_token(func):
 
     field = 'UserID'
     if not field in headers:
-      return 400 'Bad Request', 'User ID missing', {}
+      return 400, 'Bad Request', 'User ID missing', {}
     user_id = headers[field]
 
     global db
