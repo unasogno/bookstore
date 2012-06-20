@@ -4,9 +4,11 @@ import xapian
 from mmseg import seg_txt
 import json
 import handler
+import user
 import helpers
 import config
 
+@user.verify_token
 def get(url, headers, body):
   query = headers.get('QUERY')
   if query == None or query.strip() == '':

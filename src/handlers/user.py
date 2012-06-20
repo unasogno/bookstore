@@ -281,14 +281,15 @@ def verify_token(func):
     except:
       return 401, 'Unauthorized', 'Invalid token', {}
 
-    field = 'UserID'
+    field = 'Identity'
     if not field in headers:
-      return 400, 'Bad Request', 'User ID missing', {}
-    user_id = headers[field]
+      return 400, 'Bad Request', 'Identity missing', {}
+    identity_str = headers[field]
 
     global db
     if None == db: raise ValueError('global varialbe \'db\' is None')
-    token_str, secret = db.load_token(user_id)
+    identity = Identity.load(db, identity_str)
+    token_str, secret = db.load_token(identity.user_id)
 
     token = Token(token_str, secret)
     if not token.verify(auth_token):
