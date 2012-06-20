@@ -43,7 +43,8 @@ class Token(object):
     self.__secret = secret
 
   def verify(self, cipher):
-    pass
+    token = self._decrypt_token(cipher)
+    return token == self.__token_str
 
   def text(self):
     return self.__token_str
@@ -276,7 +277,7 @@ def verify_token(func):
         {'WWW-Authorization': 'token required'}
     token_cipher = headers[field]
     try:
-      token_cipher = base64.b64decode(token)
+      auth_token = base64.b64decode(token_cipher)
     except:
       return 401, 'Unauthorized', 'Invalid token', {}
 
@@ -296,4 +297,5 @@ def verify_token(func):
 
   return impl
 
-_logger = helpers.init_logger(__name__, config.LOG_PATH) 
+_logger = helpers.init_logger(__name__, config.LOG_PATH)
+db = new Database()
