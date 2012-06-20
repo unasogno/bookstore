@@ -3,7 +3,7 @@ var search_result;
 function submitSearch(query) {
   query = encodeURI(query);
   if (0 != query.length) {
-    var ajax_url = "/search?query=".concat(query);
+    var ajax_url = "/api/search?query=".concat(query);
     console.log(ajax_url);
     $.ajax({
       url: ajax_url,
