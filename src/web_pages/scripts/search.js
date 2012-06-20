@@ -110,7 +110,7 @@ function renderRow(book, headers, buffer) {
 
 $(document).ready(function(){
   $("#submit").click(function(){
-    var query = $("input#query").val();
+    var query = $("input#search-box").val();
     submitSearch(query);
   });
 });
