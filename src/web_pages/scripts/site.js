@@ -3,7 +3,7 @@ function begin_login(dialog, onSuccess, onFailure) {
   $(dialog)
     .load("/bookhub/login.html")
     .dialog({
-      height: 200,
+      height: 240,
       buttons: {
         "登录": function() {
           var identity = $("#login_identity").val();
@@ -12,9 +12,10 @@ function begin_login(dialog, onSuccess, onFailure) {
             function(data) {
               closable = true;
               $(dialog).dialog("close");
-              onSuccess(data);
+              onSuccess(identity);
             },
             function(status, error){
+              $("#error_info").html("登录失败 － " + status);
               onFailure();
             });
         },

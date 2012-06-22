@@ -109,7 +109,7 @@ function renderRow(book, headers, buffer) {
 }
 
 function loginSuccess(token) {
-  alert($.cookies.get("token"));
+  $("#username").html(token);
 }
 
 function loginFailed() {
