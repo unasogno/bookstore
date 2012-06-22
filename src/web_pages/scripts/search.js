@@ -109,10 +109,11 @@ function renderRow(book, headers, buffer) {
 }
 
 function loginSuccess(token) {
-  $.cookies.set("token", token);
+  alert($.cookies.get("token"));
 }
 
 function loginFailed() {
+  alert('failed');
 }
 
 $(document).ready(function(){
@@ -123,7 +124,7 @@ $(document).ready(function(){
 
   var token = $.cookies.get("token");
   if (token == null) {
-    login("#dialog", loginSuccess, loginFailed);
+    begin_login("#dialog", loginSuccess, loginFailed);
   }
 
 });

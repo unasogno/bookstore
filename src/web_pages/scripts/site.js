@@ -1,4 +1,5 @@
-function login(dialog, success, failure) {
+function begin_login(dialog, onSuccess, onFailure) {
+  var closable = false;
   $(dialog)
     .load("/bookhub/login.html")
     .dialog({
@@ -7,7 +8,15 @@ function login(dialog, success, failure) {
         "登录": function() {
           var identity = $("#login_identity").val();
           var password = $("#login_password").val();
-          signin(identity, password);
+          signin(identity, password, 
+            function(data) {
+              closable = true;
+              $(dialog).dialog("close");
+              onSuccess(data);
+            },
+            function(status, error){
+              onFailure();
+            });
         },
         "清除": function() {
           $("#login_identity").val("");
@@ -17,32 +26,10 @@ function login(dialog, success, failure) {
       autoOpen: false,
       modal: true,
       beforeClose: function (event, ui) {
-        return false;
+        return closable;
       }
     });
 
   $(dialog).dialog("open");
 }
 
-function signin(identity, password) {
-  $.get("/rsa/public.key", function(result) {
-    var pub = result;
-    var pubkey = new RSAKey();
-    pubkey.setPublic(pub, '10001');
-    identity = pubkey.encrypt(identity);
-    password = pubkey.encrypt(password);
-
-    $.ajax({
-      url:"/api/signin", 
-      data: {"identity": identity,
-             "password": password
-      }, 
-      success: function(data) {
-        alert(data);
-      },
-      error: function(jqXHR, status, exception) {
-        alert(exception);
-      }
-    });
-  });
-}
