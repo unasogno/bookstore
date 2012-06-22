@@ -273,15 +273,13 @@ def verify_token(func):
       return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
 
-    _logger.debug("headers = %s", headers)
-
     field = 'authorization'
     if not field in headers:
       return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
     token_cipher = headers[field]
     try:
-      _logger.debug("token = %s", auth_token)
+      _logger.debug("token = %s", token_cipher)
       auth_token = token_cipher
     except:
       return 401, 'Unauthorized', 'Invalid token', {}
