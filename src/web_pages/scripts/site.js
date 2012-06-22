@@ -1,8 +1,9 @@
 function login(dialog, success, failure) {
   $(dialog)
     .load('/bookhub/login.html')
-    // .html("user name: <input type=\"text\" id=\"username\" ></input>")
     .dialog({
+      width: 400,
+      height: 200,
       autoOpen: false,
       modal: true,
       beforeClose: function (event, ui) {
