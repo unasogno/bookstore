@@ -4,8 +4,12 @@ function login(dialog, success, failure) {
     .dialog({
       height: 200,
       buttons: {
-        "登录": function() {},
-        "清除": function() {}
+        "登录": function() {
+          alert($("#submit").html());
+        },
+        "清除": function() {
+          alert($(dialog).html());
+        }
       },
       autoOpen: false,
       modal: true,
