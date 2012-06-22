@@ -1,11 +1,13 @@
 function login(dialog, success, failure) {
-  $(dialog).dialog({
-    autoOpen: false,
-    modal: true,
-    beforeClose: function (event, ui) {
-      return false;
-    }
-  });
+  $(dialog)
+    .html("user name: <input type=\"text\" id=\"username\" ></input>")
+    .dialog({
+      autoOpen: false,
+      modal: true,
+      beforeClose: function (event, ui) {
+        return false;
+      }
+    });
 
   $(dialog).dialog("open");
 }
