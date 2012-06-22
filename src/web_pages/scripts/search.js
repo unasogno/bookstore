@@ -79,7 +79,7 @@ function renderBooks(books) {
     renderRow(books[i], headers, lines);
   }
   lines.push("</table>");
-  $("#result").html(lines.join(""));
+  $("#search-result").html(lines.join(""));
 }
 
 function getHeaders(books) {
