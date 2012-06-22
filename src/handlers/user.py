@@ -291,8 +291,14 @@ def verify_token(func):
     _logger.debug("identity = %s", identity_str)
 
     global db
-    if None == db: raise ValueError('global varialbe \'db\' is None')
-    identity = Identity.load(db, identity_str)
+    if None == db: 
+      return 500, "Internal Server Error", "Failed to connect to DB", {}
+
+    try:
+      identity = Identity.load(db, identity_str)
+    except IdentityError:
+      return 401, 'Unauthorized', 'Invliad identity', {}
+
     token_str, secret = db.load_token(identity.user_id)
 
     token = Token(token_str, secret)
