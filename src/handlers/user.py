@@ -272,6 +272,9 @@ def verify_token(func):
     if headers == None:
       return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
+
+    _logger.debug("headers = %s", headers)
+
     field = 'Authorization'
     if not field in headers:
       return 401, 'Unauthorized', 'Authorization missing', {
