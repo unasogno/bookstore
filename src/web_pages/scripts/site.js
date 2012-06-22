@@ -1,6 +1,6 @@
 function login(dialog, success, failure) {
   $(dialog)
-    .load("/bookhub/login.html").
+    .load("/bookhub/login.html")
     .dialog({
       height: 200,
       buttons: {
