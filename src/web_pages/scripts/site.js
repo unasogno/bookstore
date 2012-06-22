@@ -12,7 +12,7 @@ function begin_login(dialog, onSuccess, onFailure) {
             function(data) {
               closable = true;
               $(dialog).dialog("close");
-              onSuccess(identity);
+              onSuccess(identity, data);
             },
             function(status, error){
               $("#error_info").html("登录失败 － " + status);

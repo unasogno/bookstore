@@ -11,7 +11,7 @@ body { font-family:Verdana; font-size:14px; margin:0;}
 #search-box { margin-bottom:3px; width:400px; float:left; }
 #search-button { margin-bottom:3px; float:left; }
 #search-result { display:block; margin-left:auto;margin-right:auto; }
-#login { margin-right:3px; margin-bottom:3px; width:50px; float:right; }
+#username { margin-right:3px; margin-bottom:3px; width:50px; float:right; }
 
 ul#icons {margin: 0; padding: 0;}
 ul#icons li {margin: 2px; position: relative; padding: 2px 0; cursor: pointer; float: left;  list-style: none;}

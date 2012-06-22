@@ -108,8 +108,8 @@ function renderRow(book, headers, buffer) {
   buffer.push("</tr>");
 }
 
-function loginSuccess(token) {
-  $("#username").html(token);
+function loginSuccess(identity, token) {
+  $("#username").html(identity);
 }
 
 function loginFailed() {
@@ -125,6 +125,9 @@ $(document).ready(function(){
   var token = $.cookies.get("token");
   if (token == null) {
     begin_login("#dialog", loginSuccess, loginFailed);
+  } else {
+    var identity = $.cookies.get("identity");
+    $("#username").html(identity);
   }
 
 });
