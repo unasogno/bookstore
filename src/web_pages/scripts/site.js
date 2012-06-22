@@ -1,9 +1,10 @@
 function login(dialog, success, failure) {
-  $(dialog).load('/bookhub/login.html');
-  $(dialog).dialog({
+  $(dialog)
+    .load('/bookhub/login.html');
+    .dialog({
       height: 200,
       buttons: {
-        $("#submit_credential").html(): function() {
+        "登录：" : function() {
         },
         "清除：": function() {
           alert($(dialog).html());
