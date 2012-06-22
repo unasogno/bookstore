@@ -41,7 +41,7 @@ function loadBooks(idString) {
   if (0 == ids.length) return;
 
   $.ajax({
-    url: "/books",
+    url: "/api/books",
     type: "POST",
     data: { idList: ids.join() },
     success: function(data, status, jqXHR) {
