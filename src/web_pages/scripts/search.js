@@ -109,7 +109,7 @@ function renderRow(book, headers, buffer) {
 }
 
 function loginSuccess(identity, token) {
-  $("#username").text("退出");
+  $("#username").html("<a href=\"#login\" >退出</a>");
 }
 
 function loginFailed() {
@@ -132,8 +132,7 @@ $(document).ready(function(){
   if (token == null) {
     begin_login("#dialog", loginSuccess, loginFailed);
   } else {
-    var identity = $.cookies.get("identity");
-    $("#username").html("退出");
+    loginSuccess("", "");
   }
 
 });
