@@ -1,3 +1,6 @@
+
+var identity_prompt = "电子邮箱/手机号";
+
 function signin(identity, password, onSuccess, onFailure) {
   $.get("/rsa/public.key", function(result) {
     var pub = result;
@@ -22,3 +25,14 @@ function signin(identity, password, onSuccess, onFailure) {
     });
   });
 }
+
+$(document).ready(function (){
+  $(login_identity).val(identity_prompt);
+
+  $(login_identity).focus(function(){
+    var identity = $(login_identity).val();
+    if (identity == identity_prompt) {
+      $(login_identity).val("");
+    }
+  });
+});

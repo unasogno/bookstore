@@ -3,6 +3,7 @@ function begin_login(dialog, onSuccess, onFailure) {
   $(dialog)
     .load("/bookhub/login.html")
     .dialog({
+      title: "登录",
       height: 240,
       buttons: {
         "登录": function() {
