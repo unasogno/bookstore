@@ -109,7 +109,7 @@ function renderRow(book, headers, buffer) {
 }
 
 function loginSuccess(identity, token) {
-  $("#username").html(identity);
+  $("#username").html("退出");
 }
 
 function loginFailed() {
@@ -122,12 +122,18 @@ $(document).ready(function(){
     submitSearch(query);
   });
 
+  $("#username").click(function(){
+    $.cookies.del("token");
+    $.cookies.del("identity");
+    begin_login("#dialog", loginSuccess, loginFailed);
+  });
+
   var token = $.cookies.get("token");
   if (token == null) {
     begin_login("#dialog", loginSuccess, loginFailed);
   } else {
     var identity = $.cookies.get("identity");
-    $("#username").html(identity);
+    $("#username").html("退出");
   }
 
 });
