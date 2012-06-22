@@ -6,7 +6,7 @@ function login(dialog, success, failure) {
       buttons: {
         $("#submit_credential").html(): function() {
         },
-        $("#reset_credential").html(): function() {
+        "清除：": function() {
           alert($(dialog).html());
         }
       },
