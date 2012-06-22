@@ -4,10 +4,9 @@ function login(dialog, success, failure) {
     .dialog({
       height: 200,
       buttons: {
-        "登录": function() {
-          alert($("#submit_credential").html());
+        $("#submit_credential").html(): function() {
         },
-        "清除": function() {
+        $("#reset_credential").html(): function() {
           alert($(dialog).html());
         }
       },
