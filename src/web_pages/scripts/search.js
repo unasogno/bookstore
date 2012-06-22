@@ -7,6 +7,9 @@ function submitSearch(query) {
     console.log(ajax_url);
     $.ajax({
       url: ajax_url,
+      headers: {
+        "Authorization": $.cookies.get("token"), 
+        "Identity": $.cookies.get("identity") },
       success: onSuccess,
       error: onError,
       complete: onComplete

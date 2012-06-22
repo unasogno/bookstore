@@ -14,10 +14,8 @@ function signin(identity, password, onSuccess, onFailure) {
       data: {"identity": identity,
              "password": password
       }, 
-      success: function(data) {
-        $.cookies.set("identity", identity);
-        $.cookies.set("token", data);
-        onSuccess(data);
+      success: function(token) {
+        onSuccess(token);
       },
       error: function(jqXHR, status, exception) {
         onFailure(jqXHR.status, exception);

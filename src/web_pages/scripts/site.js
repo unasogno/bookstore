@@ -10,10 +10,14 @@ function begin_login(dialog, onSuccess, onFailure) {
           var identity = $("#login_identity").val();
           var password = $("#login_password").val();
           signin(identity, password, 
-            function(data) {
+            function(token) {
               closable = true;
               $(dialog).dialog("close");
-              onSuccess(identity, data);
+              identity = $("#login_identity").val();
+              //todo: identity should be encrypted for security and consistency.
+              $.cookies.set("identity", identity); 
+              $.cookies.set("token", token);
+              onSuccess(identity, token);
             },
             function(status, error){
               $("#error_info").html("登录失败 － " + status);
