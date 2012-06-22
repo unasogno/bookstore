@@ -268,6 +268,7 @@ class Database(object):
 
 def verify_token(func):
   def impl(path, headers, body):
+    global _logger
     if headers == None:
       return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
@@ -277,7 +278,8 @@ def verify_token(func):
         'WWW-Authorization': 'token required'}
     token_cipher = headers[field]
     try:
-      auth_token = base64.b64decode(token_cipher)
+      _logger.debug("token = %s", auth_token)
+      auth_token = token_cipher
     except:
       return 401, 'Unauthorized', 'Invalid token', {}
 
@@ -285,6 +287,7 @@ def verify_token(func):
     if not field in headers:
       return 400, 'Bad Request', 'Identity missing', {}
     identity_str = headers[field]
+    _logger.debug("identity = %s", identity_str)
 
     global db
     if None == db: raise ValueError('global varialbe \'db\' is None')
