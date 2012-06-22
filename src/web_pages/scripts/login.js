@@ -35,4 +35,11 @@ $(document).ready(function (){
       $(login_identity).val("");
     }
   });
+
+  $(login_identity).blur(function(){
+    var identity = $(login_identity).val();
+    if (identity == "") {
+      $(login_identity).val(identity_prompt);
+    }
+  });
 });
