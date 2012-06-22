@@ -1,12 +1,11 @@
 function login(dialog, success, failure) {
-  $(dialog).load("/bookhub/login.html");
-  var submit = $("#submit_credential").html();
-  var reset = $("#reset_credential").html();
-  $(dialog).dialog({
+  $(dialog)
+    .load("/bookhub/login.html").
+    .dialog({
       height: 200,
       buttons: {
-        submit : function() {},
-        reset: function() {}
+        "登录" : function() {},
+        "清除" function() {}
       },
       autoOpen: false,
       modal: true,
