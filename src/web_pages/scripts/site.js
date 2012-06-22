@@ -4,6 +4,10 @@ function login(dialog, success, failure) {
     .dialog({
       width: 400,
       height: 200,
+      buttons: {
+        "登录": function() {},
+        "清除": function() {}
+      },
       autoOpen: false,
       modal: true,
       beforeClose: function (event, ui) {
