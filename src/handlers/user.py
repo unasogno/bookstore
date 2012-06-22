@@ -275,7 +275,7 @@ def verify_token(func):
 
     _logger.debug("headers = %s", headers)
 
-    field = 'Authorization'
+    field = 'authorization'
     if not field in headers:
       return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
@@ -286,7 +286,7 @@ def verify_token(func):
     except:
       return 401, 'Unauthorized', 'Invalid token', {}
 
-    field = 'Identity'
+    field = 'identity'
     if not field in headers:
       return 400, 'Bad Request', 'Identity missing', {}
     identity_str = headers[field]
