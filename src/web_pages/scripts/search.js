@@ -109,7 +109,7 @@ function renderRow(book, headers, buffer) {
 }
 
 function loginSuccess(identity, token) {
-  $("#username").html("退出");
+  $("#username").text("退出");
 }
 
 function loginFailed() {
