@@ -269,11 +269,11 @@ class Database(object):
 def verify_token(func):
   def impl(path, headers, body):
     if headers == None:
-      return 401, 'Unauthorized', 'Autorization missing', {
+      return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
     field = 'Authorization'
     if not field in headers:
-      return 401, 'Unauthorized', 'Autorization missing', {
+      return 401, 'Unauthorized', 'Authorization missing', {
         'WWW-Authorization': 'token required'}
     token_cipher = headers[field]
     try:

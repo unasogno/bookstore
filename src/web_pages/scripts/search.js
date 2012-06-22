@@ -21,7 +21,7 @@ function onSuccess(data, status, jqXHR) {
 }
 
 function onError(jqXHR, status, errorThrown) {
-  alert(status);
+  alert(errorThrown);
   search_result = null;
 }
 
@@ -108,9 +108,22 @@ function renderRow(book, headers, buffer) {
   buffer.push("</tr>");
 }
 
+function loginSuccess(token) {
+  $.cookie("token", token);
+}
+
+function loginFailed() {
+}
+
 $(document).ready(function(){
   $("#submit").click(function(){
     var query = $("input#search-box").val();
     submitSearch(query);
   });
+
+  var token = $.cookie("token");
+  if (token == null) {
+    login("#dialog", loginSuccess, loginFailed);
+  }
+
 });
