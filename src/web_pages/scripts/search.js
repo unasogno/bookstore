@@ -109,7 +109,7 @@ function renderRow(book, headers, buffer) {
 }
 
 function loginSuccess(token) {
-  $.cookie("token", token);
+  $.cookies.set("token", token);
 }
 
 function loginFailed() {
@@ -121,7 +121,7 @@ $(document).ready(function(){
     submitSearch(query);
   });
 
-  var token = $.cookie("token");
+  var token = $.cookies.get("token");
   if (token == null) {
     login("#dialog", loginSuccess, loginFailed);
   }
