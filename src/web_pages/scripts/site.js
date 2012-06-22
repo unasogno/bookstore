@@ -5,7 +5,7 @@ function login(dialog, success, failure) {
       height: 200,
       buttons: {
         "登录": function() {
-          alert($("#submit").html());
+          alert($("#submit_credential").html());
         },
         "清除": function() {
           alert($(dialog).html());
