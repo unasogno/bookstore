@@ -21,4 +21,5 @@ ul#icons span.ui-icon {float: left; margin: 0 2px;}
 .section { border-bottom: 2px solid #fce9ca; width: 500px; }
 .section_title { margin: 10px; position relative; font-size: 1.1em; }
 .entry { font-size: 0.9em; }
+.big { font-size: 150%; }
 #ir li { height: 30px; }
