@@ -69,7 +69,7 @@ function loadBooks(idString) {
 
 function renderBooks(books) {
   var lines = new Array();
-  lines.push("<table>");
+  lines.push("<table class=\"ui-widget\">");
 
   var headers = getHeaders(books);
   if (null == headers || undefined == headers) return;
@@ -79,7 +79,7 @@ function renderBooks(books) {
     renderRow(books[i], headers, lines);
   }
   lines.push("</table>");
-  $("#search-result").html(lines.join(""));
+  $("#search-result-container").html(lines.join(""));
 }
 
 function getHeaders(books) {
@@ -94,7 +94,7 @@ function getHeaders(books) {
 function renderTableHeaders(headers, buffer) {
   buffer.push("<tr>");
   for(var i = 0; i < headers.length; i++) {
-    buffer.push("<th>");
+    buffer.push("<th class=\"ui-widget-header\">");
     buffer.push(headers[i]);
     buffer.push("</th>");
   }
@@ -104,7 +104,7 @@ function renderTableHeaders(headers, buffer) {
 function renderRow(book, headers, buffer) {
   buffer.push("<tr>");
   for (var i = 0; i < headers.length; i++) {
-    buffer.push("<td>");
+    buffer.push("<td class=\"ui-widget-content\" >");
     buffer.push(book[headers[i]]);
     buffer.push("</td>");
   }
