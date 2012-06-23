@@ -125,6 +125,10 @@ $(document).ready(function(){
     submitSearch(query);
   });
 
+  $("#filters").click(function(){
+    $("#search-filter-container").show();
+  });
+
   $("#username").click(function(){
     $.cookies.del("token");
     $.cookies.del("identity");
