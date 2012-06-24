@@ -10,22 +10,13 @@ function submitSearch(query) {
       headers: {
         "authorization": $.cookies.get("token"), 
         "identity": $.cookies.get("identity") },
-      success: onSuccess,
-      error: onError,
+      success: function() { search_result = data; },
+      error: function() { search_result= null; },
       complete: onComplete
     });
   } else {
     alert('no input');
   }
-}
-
-function onSuccess(data, status, jqXHR) {
-  search_result = data;
-}
-
-function onError(jqXHR, status, errorThrown) {
-  alert(errorThrown);
-  search_result = null;
 }
 
 function onComplete(jqXHR, status) {
