@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="scripts/jquery-1.7.2.js" ></script>
 		<script type="text/javascript" src="scripts/jquery-ui-1.8.20.custom.min.js" ></script>
 		<script type="text/javascript" src="scripts/jquery.cookies.2.2.0.min.js" ></script>
-    <script type="text/javascript" src="scripts/new_case.js" ></script>
+    <script type="text/javascript" src="scripts/case.js" ></script>
     <title>图书汇</title>
   </head>
   <body>
@@ -27,7 +27,7 @@
           <ul>
             <li><a href="#search-tab">搜索图书</a></li>
             <li><a href="#match-tab">导入匹配</a></li>
-            <li><a href="#proposal-tab">微调书目</a></li>
+            <li><a href="#proposal-tab">编辑书目</a></li>
           </ul>
           <div id="search-tab" >
             <form id="search-filters">
@@ -199,7 +199,40 @@
               </tr>
             </table>
           </div>
-          <div id="proposal-tab" >View the current proposal</div>
+          <div id="proposal-tab" >
+            <table>
+              <tr>
+                <th class="ui-widget-header" >书名</th>
+                <th class="ui-widget-header" >书号</th>
+                <th class="ui-widget-header" >出版社</th>
+                <th class="ui-widget-header" >出版年份</th>
+                <th class="ui-widget-header" >类别</th>
+                <th class="ui-widget-header" >定价</th>
+                <th class="ui-widget-header" >折扣</th>
+                <th class="ui-widget-header" >印张单价</th>
+                <th class="ui-widget-header" >印刷</th>
+                <th class="ui-widget-header" >操作</th>
+              </tr>
+              <tr>
+                <td class="ui-widget-content" >光荣与梦想</td>
+                <td class="ui-widget-content" >xxxxxxxxxxxxxxxxx</td>
+                <td class="ui-widget-content" >忘了是哪个出版社</td>
+                <td class="ui-widget-content" >2011</td>
+                <td class="ui-widget-content" >综合性图书</td>
+                <td class="ui-widget-content" >65.50</td>
+                <td class="ui-widget-content" >8.5</td>
+                <td class="ui-widget-content" >3.5</td>
+                <td class="ui-widget-content" >黑白</td>
+                <td class="ui-widget-content" >
+    		          <ul id="icons" class="ui-widget ui-helper-clearfix">
+    		            <li class="ui-state-default ui-corner-all" title="加入书目">
+                      <span class="ui-icon ui-icon-plus"></span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
       <div id="footer" class="ui-widget-header" ></div>
