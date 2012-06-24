@@ -3,6 +3,11 @@
     <meta http-quiv="Content/-Type" content="text/html"; charset="utf-8" />
     <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
     <link type="text/css" href="css/site.css" rel="stylesheet" />
+    <style type="text/css" >
+    form label { width: 20%; text-align: right; float: left; }
+    select { float: left; }
+    #start_search { float: none; display: block; width: 100px; margin: 10px auto; }
+    </style>
 		<script type="text/javascript" src="scripts/jquery-1.7.2.js" ></script>
 		<script type="text/javascript" src="scripts/jquery-ui-1.8.20.custom.min.js" ></script>
 		<script type="text/javascript" src="scripts/jquery.cookies.2.2.0.min.js" ></script>
@@ -10,15 +15,194 @@
     <title>图书汇</title>
   </head>
   <body>
-    <div id="case_editor" >
-      <ul>
-        <li>搜索</a></li>
-        <li>导入匹配</a></li>
-        <li><a href="#proposal-tab">书目</a></li>
-      </ul>
-      <div id="search-tab" >Search books with a pile of filters</div>
-      <div id="match-tab" >Match books with a given list of book names</div>
-      <div id="proposal-tab" >View the current proposal</div>
+    <div id="container">
+      <div id="header" class="ui-widget-header" >
+        <div id="title">图书汇</div>
+        <div id="logout" class="global_cmd" ><a href="#logout">退出</a></div>
+        <div id="username" class="global_cmd" ><a href="#account">登录</a></div>
+      </div>
+      <div id="name" class="ui-widget-content" style="text-align: center; margin: auto auto; width: 100%;" >新建书目</div>
+      <div id="body" class="ui-widget-content" >
+        <div id="case_editor" >
+          <ul>
+            <li><a href="#search-tab">搜索图书</a></li>
+            <li><a href="#match-tab">导入匹配</a></li>
+            <li><a href="#proposal-tab">微调书目</a></li>
+          </ul>
+          <div id="search-tab" >
+            <form id="search-filters">
+              <div id="content-filters" style="width: 50%; float: left;" >
+
+              <div>
+              <label for="audience">对象：</label>
+              <input id="audience" name="audience" type="text" />
+              </div>
+
+              <div>
+              <label for="publisher" >出版社：</label>
+              <input id="publisher" name="publisher" type="text" />
+              </div>
+
+              <div>
+              <label for="year">年份：</label>
+              <input id="year" name="year" type="text" />
+              </div>
+
+              <div>
+              <div style="height: 27px;" >
+              <label for="category">大类别：</label>
+              <select id="category" name="category" >
+                <option value="1" >马列毛思想</option>
+                <option value="2" >哲学</option>
+                <option value="3" >社会科学</option>
+                <option value="4" >自然科学</option>
+                <option value="5" >综合性图书</option>
+              </select>
+
+              <label for="class" style="width: 80px;" >小类别：</label>
+              <select id="class" name="class" >
+                <option value="1" >A</option>
+                <option value="2" >B</option>
+              </select>
+              </div>
+              </div>
+
+              </div>
+              
+              <div id="product-filters" style="width: 50%; float: left;" >
+              
+              <div>
+              <label for="list_price" >定价：</label>
+              <input id="list_price" name="list_price" type="text" />
+              </div>
+
+              <div>
+              <label for="discount" >折扣：</label>
+              <input id="discount" name="discount" type="text" />
+              </div>
+
+              <div>
+              <label for="price_per_sheet" >印张单价：</label>
+              <input id="price_per_sheet" name="price_per_sheet" type="text" />
+              </div>
+
+              <div>
+              <label for="color" >黑白/彩色：</label>
+              <input id="color" name="color" type="text" />
+              </div>
+
+              </div>
+
+              <div style="float: left; width: 100%;" ><button id="start_search" >开始搜索</button></div>
+              
+            </form>
+            <table>
+              <tr>
+                <th class="ui-widget-header" >书名</th>
+                <th class="ui-widget-header" >书号</th>
+                <th class="ui-widget-header" >出版社</th>
+                <th class="ui-widget-header" >出版年份</th>
+                <th class="ui-widget-header" >类别</th>
+                <th class="ui-widget-header" >定价</th>
+                <th class="ui-widget-header" >折扣</th>
+                <th class="ui-widget-header" >印张单价</th>
+                <th class="ui-widget-header" >印刷</th>
+                <th class="ui-widget-header" >操作</th>
+              </tr>
+              <tr>
+                <td class="ui-widget-content" >光荣与梦想</td>
+                <td class="ui-widget-content" >xxxxxxxxxxxxxxxxx</td>
+                <td class="ui-widget-content" >忘了是哪个出版社</td>
+                <td class="ui-widget-content" >2011</td>
+                <td class="ui-widget-content" >综合性图书</td>
+                <td class="ui-widget-content" >65.50</td>
+                <td class="ui-widget-content" >8.5</td>
+                <td class="ui-widget-content" >3.5</td>
+                <td class="ui-widget-content" >黑白</td>
+                <td class="ui-widget-content" >
+    		          <ul id="icons" class="ui-widget ui-helper-clearfix">
+    		            <li class="ui-state-default ui-corner-all" title="加入书目">
+                      <span class="ui-icon ui-icon-plus"></span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div id="match-tab" >
+            <label for="">选择要查找的书目清单（txt格式，每行一个书名）：</label>
+            <input id="book_list" type="file" name="book_list" />
+            <button>开始匹配</button>
+            <table>
+              <tr>
+                <th class="ui-widget-header" >原单书名</th>
+                <th class="ui-widget-header" >匹配结果</th>
+              </tr>
+              <tr>
+                <td class="ui-widget-content" >光荣与梦想</td>
+                <td class="ui-widget-content" >
+            <table>
+              <tr>
+                <th class="ui-widget-header" >书名</th>
+                <th class="ui-widget-header" >书号</th>
+                <th class="ui-widget-header" >出版社</th>
+                <th class="ui-widget-header" >出版年份</th>
+                <th class="ui-widget-header" >类别</th>
+                <th class="ui-widget-header" >定价</th>
+                <th class="ui-widget-header" >折扣</th>
+                <th class="ui-widget-header" >印张单价</th>
+                <th class="ui-widget-header" >印刷</th>
+                <th class="ui-widget-header" >操作</th>
+              </tr>
+              <tr>
+                <td class="ui-widget-content" >光荣与梦想</td>
+                <td class="ui-widget-content" >xxxxxxxxxxxxxxxxx</td>
+                <td class="ui-widget-content" >忘了是哪个出版社</td>
+                <td class="ui-widget-content" >2011</td>
+                <td class="ui-widget-content" >综合性图书</td>
+                <td class="ui-widget-content" >65.50</td>
+                <td class="ui-widget-content" >8.5</td>
+                <td class="ui-widget-content" >3.5</td>
+                <td class="ui-widget-content" >黑白</td>
+                <td class="ui-widget-content" >
+    		          <ul id="icons" class="ui-widget ui-helper-clearfix">
+    		            <li class="ui-state-default ui-corner-all" title="加入书目">
+                      <span class="ui-icon ui-icon-check"></span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-widget-content" >光荣与梦想</td>
+                <td class="ui-widget-content" >xxxxxxxxxxxxxxxxx</td>
+                <td class="ui-widget-content" >哪个出版社</td>
+                <td class="ui-widget-content" >2010</td>
+                <td class="ui-widget-content" >综合性图书</td>
+                <td class="ui-widget-content" >35.50</td>
+                <td class="ui-widget-content" >7.5</td>
+                <td class="ui-widget-content" >3.5</td>
+                <td class="ui-widget-content" >黑白</td>
+                <td class="ui-widget-content" >
+    		          <ul id="icons" class="ui-widget ui-helper-clearfix">
+    		            <li class="ui-state-default ui-corner-all" title="加入书目">
+                      <span class="ui-icon ui-icon-check"></span>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+                </td>
+              </tr>
+              <tr>
+                <td class="ui-widget-content" >格莫拉</td>
+                <td class="ui-widget-content" >未找到</td>
+              </tr>
+            </table>
+          </div>
+          <div id="proposal-tab" >View the current proposal</div>
+        </div>
+      </div>
+      <div id="footer" class="ui-widget-header" ></div>
     </div>
   </body>
 </html>
