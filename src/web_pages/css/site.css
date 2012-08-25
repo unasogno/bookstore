@@ -23,7 +23,8 @@ DIV.pager SPAN.disabled {
 
 #container {margin:0 auto; width:900px;}
 #header { height:30px; margin-bottom:5px;}
-#menu { height:20px; margin-bottom:5px;}
+#menu { height:28px; margin-bottom:5px;}
+#sidebar { float: left; width: 18%; margin: 2px 2px 0px 0px; padding: 5px; overflow: auto; }
 #body { overflow:auto; margin-bottom:5px;}
 #footer { height:50px; margin-bottom:5px;}
 
@@ -45,3 +46,4 @@ ul#icons span.ui-icon {float: left; margin: 0 2px;}
 .entry { font-size: 0.9em; line-height:300%; }
 .big { font-size: 150%; }
 .big_button { font-size: 110%; }
+

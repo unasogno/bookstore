@@ -6,6 +6,7 @@
     <style type="text/css" >
     form label { width: 20%; text-align: right; float: left; }
     select { float: left; }
+    .right { float: right; }
     #start_search { float: none; display: block; width: 100px; margin: 10px auto; }
     </style>
 		<script type="text/javascript" src="scripts/jquery-1.7.2.js" ></script>
@@ -22,7 +23,15 @@
         <div id="username" class="global_cmd" ><a href="#account">登录</a></div>
       </div>
       <div id="menu" class="ui-widget-content" >
-        <a href="./" >首页</a> &gt;&gt; <a href="#">新建书目</a>
+        <a href="index1.html" >首页</a> &gt;&gt; <a href="#">新建书目</a>
+    		<ul id="icons" class="ui-widget ui-helper-clearfix right">
+    		  <li class="ui-state-default ui-corner-all" title="改标题">
+            <span class="ui-icon ui-icon-pencil"></span>
+          </li>
+    		  <li class="ui-state-default ui-corner-all" title="导出Excel">
+            <span class="ui-icon ui-icon-disk"></span>
+          </li>
+        </ul>
       </div>
       <div id="body" class="ui-widget-content" >
         <div id="case_editor" >
@@ -208,6 +217,7 @@
             </table>
           </div>
           <div id="proposal-tab" >
+            <p>新建书目</p>
             <table>
               <tr>
                 <th class="ui-widget-header" >书名</th>

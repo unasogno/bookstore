@@ -165,6 +165,8 @@ CREATE TABLE IF NOT EXISTS `user`
 (
   user_id INT NOT NULL AUTO_INCREMENT,
   user_name VARCHAR(20),
+  surname varchar(20) not null,
+  firstname varchar(20) not null,
   `password` VARCHAR(20) NOT NULL,
   email varchar(256),
   phone_number varchar(20),
@@ -178,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `user`
 ) ENGINE = INNODB;
 
 -- 13
-CREATE TABLE book_tag
+CREATE TABLE IF NOT EXISTS book_tag
 (
   tag_id INT NOT NULL AUTO_INCREMENT,
   book_id INT NOT NULL,
@@ -192,7 +194,7 @@ CREATE TABLE book_tag
 );
 
 -- 14
-create table book_index
+create table IF NOT EXISTS book_index
 (
   book_id int not null,
   doc_id int not null,
@@ -202,7 +204,7 @@ create table book_index
 );
 
 -- 15
-create table high_water_mark
+create table IF NOT EXISTS high_water_mark
 (
   entity_id int not null,
   app_id int not null,
@@ -212,3 +214,14 @@ create table high_water_mark
   primary key(entity_id, app_id)
 );
 
+-- 16
+create table IF NOT EXISTS `case`
+(
+  case_id int not null auto_increment,
+  customer_id int not null,
+  user_id int not null,
+  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  date_created datetime not null,
+  date_modified datetime not null,
+  primary key (case_id)
+) engine = INNODB, character set = gbk;
