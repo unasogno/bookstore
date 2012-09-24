@@ -21,6 +21,7 @@ HANDLER_CONFIG = {
   }
 
 LOG_PATH = 'log/search.log'
+TMP_PATH = 'tmp/'
 
 DB_HOST = '127.0.0.1'
 DB_USER = 'bookstore_app'

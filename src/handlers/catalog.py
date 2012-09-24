@@ -1,7 +1,9 @@
 # -*- coding:utf8 -*-
 
 # from mongrel2 import handler
+import os
 import json
+import uuid
 import hashlib
 from StringIO import StringIO
 
@@ -18,7 +20,23 @@ class CatalogFormatError(Exception):
   pass
 
 class Part(object):
-  pass
+  def __init__(self):
+    self.stream = None
+    
+  def get_content_stream(self):
+    if None <> self.stream:
+      self.stream.close()
+    if not os.path.exists(self.content_file):
+      return None
+    self.stream = open(self.content_file, 'r')
+    return self.stream
+
+  def dispose(self):
+    if None <> self.stream:
+      self.stream.close()
+      self.stream = None
+    if os.path.exists(self.content_file):
+      os.remove(self.content_file)
 
 def parse_file(stream):
   parts = []
@@ -26,7 +44,6 @@ def parse_file(stream):
   boundary = stream.readline()
   if '' == boundary: return parts
   boundary = boundary[:-1]
-  print 'boundary => "%s"' % boundary
   
   while True:
     part = parse_part(stream, boundary)
@@ -63,19 +80,29 @@ def parse_part(stream, boundary):
   if '' == line: raise RequestBodyError('expecting Content-Type')
   attribute = line.split(':')
   part.content_type = parse_attribute(attribute, 'Content-Type')
-  
-  while True:
-    line = stream.readline()
-    if '' == line: raise RequestBodyError('Missing boundary')
-    print 'reading =>', line
-    if line.startswith(boundary):
-      break
-    else:
-      print '"%s" doesn\'t start with "%s"' % (line, boundary)
+
+  line = stream.readline()
+  print line
+
+  # body
+  # todo: implement dispose method to release stream object
+  filename = str(uuid.uuid4())
+  path = config.TMP_PATH + filename
+  with open(path, 'wb+') as output_stream:
+    
+    while True:
+      line = stream.readline()
+      if '' == line: raise RequestBodyError('Missing boundary')
+      if line.startswith(boundary):
+        break
+      output_stream.write(line)
+    output_stream.flush()
+    output_stream.close()
+    part.content_file = path
+    
   return part
 
 def parse_attributes(string):
-  print 'parsing', string
   return dict((n.strip(),v.strip()) \
               for n, v in (i.split('=', 1) \
                            for i in string.split(';')))
@@ -115,14 +142,30 @@ def post(path, headers, body):
       logger.info("GOT THE WRONG TARGET FILE: %s, %s", expected, upload)
       return
 
+    '''
     content = open(upload, 'r').read()
     print "UPLOAD DONE: BODY IS %d long, content length is %s" % (
             len(body), req.headers['content-length'])
+    '''
+    with open(upload, 'r') as fp:
+      parts = parse_file(fp)
+      fp.close()
+
+    if 2 <> len(parts):
+      logger.error('bad request - len(parts) == %d', len(parts))
+      # todo: return HTTP status code
+      return 400, 'Bad Request', 'invalid format', None
+
+    import_catalog(parts)
 
     response = "UPLOAD GOOD: %s" % hashlib.md5(body).hexdigest()
 
+    return 200, 'OK', response, {
+      'Content-Type': 'application/json;charset=UTF-8'}
+
   elif headers.get('x-mongrel2-upload-start', None):
     logger.debug('begin to upload file - %s', headers)
+    # todo: returns nothing?
     return
 
   elif 'multipart/form-data' == headers.get('content-type', None):
