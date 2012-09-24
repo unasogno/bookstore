@@ -1,79 +1,106 @@
 <html>
-  <head>
-    <meta http-quiv="Content/-Type" content="text/html"; charset="utf-8" />
-    <link type="text/css" href="css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="stylesheet" />
-    <link type="text/css" href="css/site.css" rel="stylesheet" />
+    <head>
+        <meta http-quiv="Content/-Type" content="text/html"; charset="utf-8" />
+        <link type="text/css" 
+            href="css/ui-lightness/jquery-ui-1.8.20.custom.css" 
+            rel="stylesheet" />
+        <link type="text/css" href="css/site.css" rel="stylesheet" />
 		<script type="text/javascript" src="scripts/jquery-1.7.2.js" ></script>
-		<script type="text/javascript" src="scripts/jquery-ui-1.8.20.custom.min.js" ></script>
-		<script type="text/javascript" src="scripts/jquery.cookies.2.2.0.min.js" ></script>
-    <script type="text/javascript" src="scripts/index.js" ></script>
-    <title>图书汇</title>
-  </head>
-  <body>
-    <div id="container" >
-      <div id="header" class="ui-widget-header" >
-        <div id="title">图书汇</div>
-        <div id="logout" class="global_cmd" ><a href="#logout">退出</a></div>
-        <div id="username" class="global_cmd" ><a href="#account">登录</a></div>
-      </div>
-      <div id="menu" class="ui-widget-content" >
-        <a href="./" >首页</a>
-      </div>
-      <div id="body" class="ui-widget-content" >
-        <div id="proposal" class="section ui-widget" >
-          <h2 class="section_title ui-widget-header">组织书目<a href="case.html" class="global_cmd" >新建</a></h2>
-          <ul>
-            <li class="entry" ><a href="#ir" >苏州润知1 (更新时间：2012-5-26 9:36:12am)</a></li>
-            <li class="entry" ><a href="#ir" >苏州润知2 (更新时间：2012-5-22 1:56:29pm)</a></li>
-            <li class="entry" ><a href="#ir" >苏州润知3 (更新时间：2012-5-20 8:05:09pm)</a></li>
-          </ul>
-          <div id="proposal_pager" class="pager" >
-            <span > &lt; </span>
-            <span class="current" ><a href="#1">1</a></span>
-            <a href="#2">2</a>
-            <a href="#3">3</a>
-            ...
-            <a href="#10">10</a>
-            <a href="#next" > &gt; </a>
-          </div>
+		<script type="text/javascript" 
+            src="scripts/jquery-ui-1.8.20.custom.min.js" ></script>
+		<script type="text/javascript" 
+            src="scripts/jquery.cookies.2.2.0.min.js" ></script>
+        <script type="text/javascript" src="scripts/index.js" ></script>
+        <title>图书汇</title>
+    </head>
+    <body>
+        <div id="container" >
+            <div id="header" class="ui-widget-header" >
+                <div id="title">图书汇</div>
+                <div id="logout" class="global_cmd" >
+                    <a href="#logout">退出</a>
+                </div>
+                <div id="username" class="global_cmd" >
+                    <a href="#account">登录</a>
+                </div>
+            </div>
+            <div id="menu" class="ui-widget-content" >
+                <a href="./" >首页</a>
+            </div>
+            <div id="body" class="ui-widget-content" >
+                <div id="proposal" class="section ui-widget" >
+                    <h2 class="section_title ui-widget-header">
+                        组织书目<a href="case.html" class="global_cmd" >新建</a>
+                    </h2>
+                    <ul>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知1 (更新时间：2012-5-26 9:36:12am)</a>
+                        </li>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知2 (更新时间：2012-5-22 1:56:29pm)</a>
+                        </li>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知3 (更新时间：2012-5-20 8:05:09pm)</a>
+                        </li>
+                    </ul>
+                    <div id="proposal_pager" class="pager" >
+                        <span > &lt; </span>
+                        <span class="current" ><a href="#1">1</a></span>
+                        <a href="#2">2</a>
+                        <a href="#3">3</a>
+                        ...
+                        <a href="#10">10</a>
+                        <a href="#next" > &gt; </a>
+                    </div>
+                </div>
+                <div id="negotiation" class="section ui-widget" >
+                    <h2 class="section_title ui-widget-header">配货</h2>
+                    <ul>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知1 (更新时间：2012-5-26 9:36:12am)</a>
+                        </li>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知2 (更新时间：2012-5-22 1:56:29pm)</a>
+                        </li>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知3 (更新时间：2012-5-20 8:05:09pm)</a>
+                        </li>
+                    </ul>
+                    <div id="negotiation_pager" class="pager" >
+                        <span > &lt; </span>
+                        <span class="current" ><a href="#1">1</a></span>
+                        <a href="#2">2</a>
+                        <a href="#3">3</a>
+                        ...
+                        <a href="#10">10</a>
+                        <a href="#next" > &gt; </a>
+                    </div>
+                </div>
+                <div id="closing" class="section ui-widget" >
+                    <p class="section_title ui-widget-header"> 发货</p>
+                    <ul>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知1 (更新时间：2012-5-26 9:36:12am)</a>
+                        </li>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知2 (更新时间：2012-5-22 1:56:29pm)</a>
+                        </li>
+                        <li class="entry" >
+                            <a href="#ir" >苏州润知3 (更新时间：2012-5-20 8:05:09pm)</a>
+                        </li>
+                    </ul>
+                    <div id="closing_pager" class="pager" >
+                        <span > &lt; </span>
+                        <span class="current" ><a href="#1">1</a></span>
+                        <a href="#2">2</a>
+                        <a href="#3">3</a>
+                        ...
+                        <a href="#10">10</a>
+                        <a href="#next" > &gt; </a>
+                    </div>
+                </div>
+            </div>
+            <div id="footer" class="ui-widget-header"></div>
         </div>
-        <div id="negotiation" class="section ui-widget" >
-          <h2 class="section_title ui-widget-header">配货</h2>
-          <ul>
-            <li class="entry" ><a href="#ir" >苏州润知1 (更新时间：2012-5-26 9:36:12am)</a></li>
-            <li class="entry" ><a href="#ir" >苏州润知2 (更新时间：2012-5-22 1:56:29pm)</a></li>
-            <li class="entry" ><a href="#ir" >苏州润知3 (更新时间：2012-5-20 8:05:09pm)</a></li>
-          </ul>
-          <div id="negotiation_pager" class="pager" >
-            <span > &lt; </span>
-            <span class="current" ><a href="#1">1</a></span>
-            <a href="#2">2</a>
-            <a href="#3">3</a>
-            ...
-            <a href="#10">10</a>
-            <a href="#next" > &gt; </a>
-          </div>
-        </div>
-        <div id="closing" class="section ui-widget" >
-          <p class="section_title ui-widget-header"> 发货</p>
-          <ul>
-            <li class="entry" ><a href="#ir" >苏州润知1 (更新时间：2012-5-26 9:36:12am)</a></li>
-            <li class="entry" ><a href="#ir" >苏州润知2 (更新时间：2012-5-22 1:56:29pm)</a></li>
-            <li class="entry" ><a href="#ir" >苏州润知3 (更新时间：2012-5-20 8:05:09pm)</a></li>
-          </ul>
-          <div id="closing_pager" class="pager" >
-            <span > &lt; </span>
-            <span class="current" ><a href="#1">1</a></span>
-            <a href="#2">2</a>
-            <a href="#3">3</a>
-            ...
-            <a href="#10">10</a>
-            <a href="#next" > &gt; </a>
-          </div>
-        </div>
-      </div>
-      <div id="footer" class="ui-widget-header">
-      </div>
-    </div>
-  </body>
+    </body>
 </html>
