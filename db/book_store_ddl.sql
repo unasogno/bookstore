@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS customer
   comments VARCHAR(200),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY(customer_id)
 ) ENGINE = INNODB;
 
@@ -36,7 +35,6 @@ CREATE TABLE IF NOT EXISTS supplier
   comments VARCHAR(200),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY(supplier_id)
 );
 
@@ -56,9 +54,9 @@ CREATE TABLE IF NOT EXISTS book
   author VARCHAR(200),
   barcode VARCHAR(20),
   comments VARCHAR(200),
+  status int not null default 0,
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY(book_id),
   FOREIGN KEY(publisher_id) REFERENCES publisher(publisher_id) 
 );
@@ -70,7 +68,6 @@ CREATE TABLE IF NOT EXISTS publisher_partner
   supplier_id INT NOT NULL,
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   FOREIGN KEY(publisher_id)  REFERENCES publisher(publisher_id),
   FOREIGN KEY(supplier_id)  REFERENCES supplier(supplier_id)
 );
@@ -83,8 +80,7 @@ CREATE TABLE IF NOT EXISTS supply
   discount DECIMAL(4,3) NOT NULL DEFAULT 1,
   inventory INT NOT NULL DEFAULT -1
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
-  date_modified datetime not null
+  date_created datetime not null
 );
 
 -- 7 
@@ -98,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `order`
   comments VARCHAR(200),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY(order_id),
   FOREIGN KEY(customer_id) REFERENCES customer(customer_id)
 );
@@ -113,7 +108,6 @@ CREATE TABLE IF NOT EXISTS order_item
   quantity INT(5),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY(order_item_id),
   FOREIGN KEY(order_id) REFERENCES `order`(order_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
@@ -126,8 +120,7 @@ CREATE TABLE IF NOT EXISTS `code`
   `name` VARCHAR(50),
   `value` INT(3)
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
-  date_modified datetime not null
+  date_created datetime not null
 );
 
 -- 10
@@ -143,7 +136,6 @@ CREATE TABLE IF NOT EXISTS contact
   comments VARCHAR(200),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY (contact_id)
 );
 
@@ -156,7 +148,6 @@ CREATE TABLE IF NOT EXISTS partner_contact
   comments VARCHAR(200),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY (contact_id, partner_type, partner_id)
 );
 
@@ -175,7 +166,6 @@ CREATE TABLE IF NOT EXISTS `user`
   token varchar(128),
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY (user_id)
 ) ENGINE = INNODB;
 
@@ -188,7 +178,6 @@ CREATE TABLE IF NOT EXISTS book_tag
   tag VARCHAR(200) NOT NULL,
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   PRIMARY KEY (tag_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
 );
@@ -199,7 +188,6 @@ create table IF NOT EXISTS book_index
   book_id int not null,
   doc_id int not null,
   date_created datetime not null,
-  date_modified datetime not null,
   primary key(book_id, doc_id)
 );
 
@@ -210,7 +198,6 @@ create table IF NOT EXISTS high_water_mark
   app_id int not null,
   time_stamp timestamp default 0,
   date_created datetime not null,
-  date_modified datetime not null,
   primary key(entity_id, app_id)
 );
 
@@ -222,6 +209,14 @@ create table IF NOT EXISTS `case`
   user_id int not null,
   time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   date_created datetime not null,
-  date_modified datetime not null,
   primary key (case_id)
+) engine = INNODB, character set = gbk;
+
+-- 17
+create table IF NOT EXISTS code 
+(
+  `type` smallint not null,
+  name varchar(200) not null,
+  `value` smallint not null,
+  primary key (`type`, `value`)
 ) engine = INNODB, character set = gbk;
