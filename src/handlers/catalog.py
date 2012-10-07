@@ -1,11 +1,12 @@
 # -*- coding:utf8 -*-
 
-# from mongrel2 import handler
+import handler
 import os
 import json
 import uuid
 import hashlib
 from StringIO import StringIO
+from csv import reader
 
 import helpers
 import config
@@ -38,6 +39,15 @@ class Part(object):
     if os.path.exists(self.content_file):
       os.remove(self.content_file)
 
+def parse_field_map(stream):
+  csv_reader = reader(stream, delimiter=':', quotechar='"')
+  
+  field_map = {}
+  for line in csv_reader:
+    field_map[line[0]] = int(line[1])
+  
+  return field_map
+
 def parse_file(stream):
   parts = []
   
@@ -63,7 +73,7 @@ def parse_part(stream, boundary):
       raise RequestBodyError('expecting %s' % expected_name)
     return attribute[1].strip()
 
-  # Content-Disposition: form-data; name="file1"; filename="3.txt"
+  # Content-Disposition: form-data; name="name"; filename="filename.ext"
   attributes = line.split(';')
   
   attribute = attributes[0].split(':')
@@ -133,6 +143,9 @@ def parse(headers, body):
 def get(path, headers, body):
   pass
 
+def import_catalog(catalog, field_map):
+  pass
+
 def post(path, headers, body):
   if headers.get('x-mongrel2-upload-done', None):
     expected = req.headers.get('x-mongrel2-upload-start', "BAD")
@@ -156,7 +169,7 @@ def post(path, headers, body):
       # todo: return HTTP status code
       return 400, 'Bad Request', 'invalid format', None
 
-    import_catalog(parts)
+    import_catalog(parts[0].get_content_stream(), parts[1].get_content_stream())
 
     response = "UPLOAD GOOD: %s" % hashlib.md5(body).hexdigest()
 
@@ -182,5 +195,4 @@ if '__main__' == __name__:
   except:
     logger.error(helpers.format_exception())
 else:
-  pass
-  # handler.handler_registry[__name__] = handlers
+  handler.handler_registry[__name__] = handlers

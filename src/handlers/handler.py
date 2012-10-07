@@ -1,13 +1,23 @@
 # _*_ coding=utf8 _*_
 
-from mongrel2 import handler
+def is_debug():
+  global DEBUG
+  try:
+    return DEBUG
+  except:
+    return True
+
+if is_debug():
+  import mongrel2_dummy_handler as handler
+else:
+  from mongrel2 import handler
 import json
 import Cookie
 from uuid import uuid4
 import helpers
 import config
 
-handlers_registry = {}
+handler_registry = {}
 
 def run(send_spec, recv_spec, handlers):
   logger = helpers.init_logger('handler', config.LOG_PATH)

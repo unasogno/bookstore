@@ -1,5 +1,5 @@
 ------WebKitFormBoundaryD2aci3gduj9YPGuC
-Content-Disposition: form-data; name="file1"; filename="3.txt"
+Content-Disposition: form-data; name="catalog"; filename="catalog.txt"
 Content-Type: text/plain
 
 a b c d e f g h i j k l m n
@@ -9,7 +9,7 @@ a b c d e f g h i j k l m n
 a b c d e f g h i j k l m n
 
 ------WebKitFormBoundaryD2aci3gduj9YPGuC
-Content-Disposition: form-data; name="file2"; filename="1.txt"
+Content-Disposition: form-data; name="field_map"; filename="field_map.txt"
 Content-Type: text/plain
 
 1,a
