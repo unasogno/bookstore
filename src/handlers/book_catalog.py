@@ -1,5 +1,27 @@
 # -*- coding:utf8 -*-
 
+import csv
+
+def import_catalog(catalog_stream, field_map_stream, writer):
+    def parse_field_map(stream):
+        csv_reader = csv.reader(stream, delimiter=':', quotechar='"')
+      
+        field_map = {}
+        for line in csv_reader:
+            field_map[line[0]] = int(line[1])
+      
+        return field_map
+
+    catalog_reader = csv.reader(catalog_stream)
+    field_map = parse_field_map(field_map_stream)
+    
+    reader = CatalogReader(catalog_reader, field_map)
+
+    while True:
+        item = reader.read()
+        if None == item: break
+        writer.write(item)
+
 class CatalogItem(object):
 
     def __init__(self, title, isbn, publisher, list_price, publish_date, class_,
@@ -40,7 +62,10 @@ class CatalogReader(object):
             for header in tag_headers])
 
     def read(self):
-        line = self.__reader.next()
+        try:
+            line = self.__reader.next()
+        except:
+            return None
         arguments = {}
         for header in self.__field_map:
             index = self.__field_map[header]
