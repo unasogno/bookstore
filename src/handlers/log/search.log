@@ -1,5 +1,0 @@
-2012-10-07 23:42:09,221 - book -ERROR - Traceback (most recent call last):
-  File "D:\Kai\Src\github\bookstore\src\handlers\catalog.py", line 193, in <module>
-    handler_config = config.HANDLER_CONFIG['catalog']
-KeyError: 'catalog'
-
