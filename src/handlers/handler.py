@@ -1,13 +1,8 @@
 # _*_ coding=utf8 _*_
 
-def is_debug():
-  global DEBUG
-  try:
-    return DEBUG
-  except:
-    return True
+DEBUG = False
 
-if is_debug():
+if DEBUG:
   import mongrel2_dummy_handler as handler
 else:
   from mongrel2 import handler

@@ -1,7 +1,5 @@
 # -*- coding:utf8 -*-
 
-DEBUG = False
-
 import handler
 import os
 import json
