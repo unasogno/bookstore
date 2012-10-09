@@ -77,7 +77,7 @@ def post(path, headers, body):
     content_type, content = parse(headers, body)
 
 handlers = { 'POST': post }
-logger = helpers.init_logger('book', config.LOG_PATH)
+logger = helpers.init_logger('catalog', config.LOG_PATH)
 
 if '__main__' == __name__:
   try:

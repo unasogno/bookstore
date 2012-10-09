@@ -29,8 +29,8 @@ def run(send_spec, recv_spec, handlers):
       logger.debug('request disconnected')
       continue
     else:
-      logger.debug('incoming request')
       method = req.headers.get('METHOD')
+      logger.debug('incoming %s request' % method)
 
       code = 500
       status = 'Internal Server Error'
