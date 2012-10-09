@@ -69,8 +69,6 @@ def post(path, headers, body):
 
   elif headers.get('x-mongrel2-upload-start', None):
     logger.debug('begin to upload file - %s', headers)
-    # todo: returns nothing?
-    return
 
   elif 'multipart/form-data' == headers.get('content-type', None):
     logger.debug("body = %s", body)
