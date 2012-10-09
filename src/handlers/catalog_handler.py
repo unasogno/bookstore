@@ -11,6 +11,8 @@ from csv import reader
 import helpers
 import config
 
+DEBUG = False
+
 def parse(headers, body):
   boundary = headers.get('boundary')
   lines = body.split('\r\n')
