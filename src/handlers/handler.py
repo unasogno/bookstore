@@ -42,7 +42,8 @@ def run(send_spec, recv_spec, handlers):
           status = 'Method Not Allowed'
           response = 'The given method of %s is not supported' % method
         else:
-          code, status, response, headers = handlers[method](
+          method_handler = handlers[method]
+          code, status, response, headers = method_handler(
             req.path, req.headers, req.body)
       finally:
         logger.debug('Sending response - %s', response)
