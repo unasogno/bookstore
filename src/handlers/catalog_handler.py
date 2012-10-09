@@ -44,7 +44,7 @@ def post(path, headers, body):
 
     if expected != upload:
       logger.info("GOT THE WRONG TARGET FILE: %s, %s", expected, upload)
-      return
+      return 400, 'Bad Request', 'invalid format', None
 
     '''
     content = open(upload, 'r').read()
@@ -57,7 +57,6 @@ def post(path, headers, body):
 
     if 2 <> len(parts):
       logger.error('bad request - len(parts) == %d', len(parts))
-      # todo: return HTTP status code
       return 400, 'Bad Request', 'invalid format', None
 
     import_catalog(parts[0].get_content_stream(), parts[1].get_content_stream())
@@ -69,10 +68,27 @@ def post(path, headers, body):
 
   elif headers.get('x-mongrel2-upload-start', None):
     logger.debug('begin to upload file - %s', headers)
+    return 0, 'Continue', 'Continue', None
 
   elif 'multipart/form-data' == headers.get('content-type', None):
     logger.debug("body = %s", body)
     content_type, content = parse(headers, body)
+
+    try:
+      parts = parse_file(content)
+    finally:
+      content.close()
+
+    if 2 <> len(parts):
+      logger.error('bad request - len(parts) == %d', len(parts))
+      return 400, 'Bad Request', 'invalid format', None
+
+    import_catalog(parts[0].get_content_stream(), parts[1].get_content_stream())
+
+    response = "UPLOAD GOOD: %s" % hashlib.md5(body).hexdigest()
+
+    return 200, 'OK', response, {
+      'Content-Type': 'application/json;charset=UTF-8'}
 
 handlers = { 'POST': post }
 logger = helpers.init_logger('catalog', config.LOG_PATH)

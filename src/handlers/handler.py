@@ -45,6 +45,7 @@ def run(send_spec, recv_spec, handlers):
           method_handler = handlers[method]
           code, status, response, headers = method_handler(
             req.path, req.headers, req.body)
+          if 0 == code: continue
       finally:
         logger.debug('Sending response - %s', response)
         conn.reply_http(req, response, code, status, headers)
