@@ -1,5 +1,7 @@
 # -*- coding:utf8 -*-
 
+DEBUG = False
+
 import handler
 import os
 import json
@@ -10,8 +12,6 @@ from csv import reader
 
 import helpers
 import config
-
-DEBUG = False
 
 def parse(headers, body):
   boundary = headers.get('boundary')
