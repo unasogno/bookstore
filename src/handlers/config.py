@@ -17,7 +17,9 @@ HANDLER_CONFIG = {
     'signup': HandlerConfig(
       'signup', 'tcp://127.0.0.1:9989', 'tcp://127.0.0.1:9988'),
     'signin': HandlerConfig(
-      'signin', 'tcp://127.0.0.1:9987', 'tcp://127.0.0.1:9986')
+      'signin', 'tcp://127.0.0.1:9987', 'tcp://127.0.0.1:9986'),
+    'catalog_handler': HandlerConfig(
+      'catalog_handler', 'tcp://127.0.0.1:9985', 'tcp://127.0.0.1:9984')
   }
 
 LOG_PATH = 'log/search.log'
