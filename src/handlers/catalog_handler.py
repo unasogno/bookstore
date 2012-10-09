@@ -81,7 +81,7 @@ logger = helpers.init_logger('book', config.LOG_PATH)
 
 if '__main__' == __name__:
   try:
-    handler_config = config.HANDLER_CONFIG['catalog']
+    handler_config = config.HANDLER_CONFIG['catalog_handler']
     handler.run(handler_config.send_spec, handler_config.recv_spec, handlers)
   except:
     logger.error(helpers.format_exception())
