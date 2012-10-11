@@ -91,7 +91,7 @@ def post(path, headers, body):
       'Content-Type': 'application/json;charset=UTF-8'}
 
   else:
-    return 0, 'Continue', 'Continue', None
+    return 200, 'OK', 'unknown request', None
 
 handlers = { 'POST': post }
 logger = helpers.init_logger('catalog', config.LOG_PATH)
