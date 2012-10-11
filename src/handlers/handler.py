@@ -46,7 +46,7 @@ def run(send_spec, recv_spec, handlers):
           code, status, response, headers = method_handler(
             req.path, req.headers, req.body)
           if 0 == code:
-            logger.debug('Continue %', response)
+            logger.debug('Continue %s', response)
             continue
       except:
         logger.warn('An error occurs - %s', helpers.format_exception())
