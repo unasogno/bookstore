@@ -8,6 +8,7 @@ import hashlib
 from StringIO import StringIO
 from csv import reader
 
+from catalog import parse_file
 import helpers
 import config
 
@@ -34,11 +35,14 @@ def parse(headers, body):
   content.seek(0)
   return content_type, content
 
+def content_type_equals(headers, expected_type):
+  content_type = headers.get('content-type', '')
+  return content_type.find(expected_type) >= 0
+
 def get(path, headers, body):
   pass
 
 def post(path, headers, body):
-  logger.debug('begin to handle upload request')
   if headers.get('x-mongrel2-upload-done', None):
     expected = req.headers.get('x-mongrel2-upload-start', "BAD")
     upload = req.headers.get('x-mongrel2-upload-done', None)
@@ -71,7 +75,7 @@ def post(path, headers, body):
     logger.debug('begin to upload file - %s', headers)
     return 0, 'Continue', 'Upload Start', None
 
-  elif 'multipart/form-data' == headers.get('content-type', None):
+  elif content_type_equals(headers, 'multipart/form-data'):
     logger.debug("body = %s", body)
     content_type, content = parse(headers, body)
 
@@ -92,6 +96,7 @@ def post(path, headers, body):
       'Content-Type': 'application/json;charset=UTF-8'}
 
   else:
+    print handers
     return 200, 'OK', 'unknown request', None
 
 handlers = { 'POST': post }
