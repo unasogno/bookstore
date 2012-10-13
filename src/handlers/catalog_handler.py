@@ -76,7 +76,7 @@ def post(path, headers, body):
     return 0, 'Continue', 'Upload Start', None
 
   elif content_type_equals(headers, 'multipart/form-data'):
-    parts = parse_file(content)
+    parts = parse_file(body)
 
     if 2 <> len(parts):
       logger.error('bad request - len(parts) == %d', len(parts))
