@@ -38,6 +38,7 @@ def get(path, headers, body):
   pass
 
 def post(path, headers, body):
+  logger.debug('begin to handle upload request')
   if headers.get('x-mongrel2-upload-done', None):
     expected = req.headers.get('x-mongrel2-upload-start', "BAD")
     upload = req.headers.get('x-mongrel2-upload-done', None)
