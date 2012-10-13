@@ -18,6 +18,7 @@ class CatalogFormatError(Exception):
 class Part(object):
   def __init__(self):
     self.stream = None
+    self.content_file = None
     
   def get_content_stream(self):
     if None <> self.stream:
