@@ -2,7 +2,6 @@
 
 import os
 import uuid
-from StringIO import StringIO
 
 import helpers
 import config
