@@ -65,7 +65,7 @@ class Part(object):
     part.content_type = parse_attribute(attribute, 'Content-Type')
 
     line = stream.readline()
-    print line
+    print 'line =>', line
 
     # body
     # todo: implement dispose method to release stream object

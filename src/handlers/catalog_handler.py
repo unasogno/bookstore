@@ -94,7 +94,6 @@ def post(path, headers, body):
       'Content-Type': 'application/json;charset=UTF-8'}
 
   else:
-    print handers
     return 200, 'OK', 'unknown request', None
 
 handlers = { 'POST': post }
