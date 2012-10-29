@@ -1,5 +1,7 @@
 # -*- coding:utf8 -*-
 
+DEBUG = True
+
 class HandlerConfig(object):
   
   def __init__(self, module_name, send_spec, recv_spec):

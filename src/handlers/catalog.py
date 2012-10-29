@@ -77,6 +77,9 @@ class Part(object):
       while True:
         line = stream.readline()
         if '' == line: raise RequestBodyError('Missing boundary')
+        # encoding of body could be various
+        if config.DEBUG:
+          helpers.print_chars(line, logger.debug)
         if line.startswith(boundary):
           break
         output_stream.write(line)
@@ -91,7 +94,7 @@ def parse_file(stream):
   
   boundary = stream.readline()
   if '' == boundary: return parts
-  boundary = boundary[:-1]
+  boundary = boundary[:-1] # trim the tailing '\r\n'
   
   while True:
     part = Part.parse(stream, boundary)
