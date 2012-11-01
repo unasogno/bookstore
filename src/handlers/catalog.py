@@ -83,7 +83,7 @@ class Part(object):
         #   helpers.print_chars(line)
         if line.startswith(boundary):
           break
-        output_stream.write(line)
+        output_stream.write(line.encode('utf8'))
       output_stream.flush()
       output_stream.close()
       part.content_file = path
