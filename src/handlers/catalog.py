@@ -76,6 +76,7 @@ class Part(object):
       
       while True:
         line = stream.readline()
+        line = line.decode('gbk')
         if '' == line: raise RequestBodyError('Missing boundary')
         # encoding of body could be various
         # if config.DEBUG:
