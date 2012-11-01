@@ -7,8 +7,8 @@ from mocker import Mocker
 import csv
 
 from catalog import parse_file
-from catalog import parse_field_map
-from catalog import import_catalog
+from book_catalog import parse_field_map
+from book_catalog import import_catalog
 from catalog import RequestBodyError
 from catalog import MapFormatError
 from catalog import CatalogFormatError
@@ -24,7 +24,11 @@ class CatalogHandlerTestCases(TestCase):
             fp = open(CATALOG_SAMPLE, 'r')
             map_fp = open(FIELD_MAP_SAMPLE, 'r')
 
-            import_catalog(fp, map_fp)
+            class DummyWriter(object):
+                def write(self, text):
+                    pass
+
+            import_catalog(fp, map_fp, DummyWriter())
             
         finally:
             fp.close()
@@ -92,6 +96,10 @@ class CatalogHandlerTestCases(TestCase):
         pass
 
 if '__main__' == __name__:
+    class DummyLogger(object):
+        def debug(self, text):
+            pass
+    logger = DummyLogger()
     mocker = Mocker()
     mongrel2 = mocker.mock()
     unittest.main()

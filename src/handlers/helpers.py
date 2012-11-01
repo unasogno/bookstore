@@ -24,14 +24,14 @@ def init_logger(name, log_path):
   logger.setLevel(logging.DEBUG)
   return logger
 
-def print_chars(text, printer):
+def print_chars(text, printer = None):
   chars = bytearray(text)
-  if None == logger:
-    for char in chars:
-      print hex(char)
+  chars_list = [hex(char) for char in chars]
+  if None == printer:
+    print chars_list
   else:
-    for char in chars:
-      logger(hex(char))
+    printer(chars_list)
+      
 
 def format_exception():
   return traceback.format_exc()

@@ -79,7 +79,7 @@ class Part(object):
         if '' == line: raise RequestBodyError('Missing boundary')
         # encoding of body could be various
         if config.DEBUG:
-          helpers.print_chars(line, logger.debug)
+          helpers.print_chars(line)
         if line.startswith(boundary):
           break
         output_stream.write(line)

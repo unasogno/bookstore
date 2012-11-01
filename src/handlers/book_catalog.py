@@ -2,16 +2,16 @@
 
 import csv
 
+def parse_field_map(stream):
+    csv_reader = csv.reader(stream, delimiter=':', quotechar='"')
+      
+    field_map = {}
+    for line in csv_reader:
+        field_map[line[0]] = int(line[1])
+      
+    return field_map
+    
 def import_catalog(catalog_stream, field_map_stream, writer):
-    def parse_field_map(stream):
-        csv_reader = csv.reader(stream, delimiter=':', quotechar='"')
-      
-        field_map = {}
-        for line in csv_reader:
-            field_map[line[0]] = int(line[1])
-      
-        return field_map
-
     catalog_reader = csv.reader(catalog_stream)
     field_map = parse_field_map(field_map_stream)
     
