@@ -81,7 +81,14 @@ class Part(object):
         # encoding of body could be various
         if config.DEBUG:
           # helpers.print_chars(line)
-          print line.encode('utf8')
+          # print line.encode('utf8')
+          if 2 <= len(line):
+            a = bytearray(line[-2:])
+            print a[0], a[1]
+          elif 1 == len(line):
+            print bytearray(line)[0]
+          else
+            print 'None'
         if line.startswith(boundary):
           break
         
