@@ -97,7 +97,7 @@ def post(path, headers, body):
     return 200, 'OK', 'unknown request', None
 
 handlers = { 'POST': post }
-logger = helpers.init_logger('catalog', config.LOG_PATH)
+logger = helpers.init_logger('catalog_handler', config.LOG_PATH)
 
 if '__main__' == __name__:
   try:

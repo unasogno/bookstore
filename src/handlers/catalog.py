@@ -79,10 +79,12 @@ class Part(object):
         line = line.decode('gbk')
         if '' == line: raise RequestBodyError('Missing boundary')
         # encoding of body could be various
-        # if config.DEBUG:
-        #   helpers.print_chars(line)
+        if config.DEBUG:
+          # helpers.print_chars(line)
+          print line.encode('utf8')
         if line.startswith(boundary):
           break
+        
         output_stream.write(line.encode('utf8'))
       output_stream.flush()
       output_stream.close()
@@ -103,3 +105,5 @@ def parse_file(stream):
     parts.append(part)
 
   return parts
+
+# logger = helpers.init_logger('catalog', config.LOG_PATH)
