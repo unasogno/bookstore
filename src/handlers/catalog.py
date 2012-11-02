@@ -38,6 +38,7 @@ class Part(object):
   @staticmethod
   def parse(stream, boundary):
     line = stream.readline()
+    print line
     if '' == line: return None
 
     part = Part()
