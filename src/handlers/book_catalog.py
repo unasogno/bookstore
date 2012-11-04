@@ -83,7 +83,7 @@ class CatalogReader(object):
         arguments = {}
         for header in self.__field_map:
             index = self.__field_map[header]
-            arguments[header] = line[index] if header in arguments else None
+            arguments[header] = line[index] if index < len(line) else None
 
         tags = [
             (header, line[self.__tag_map[header]])
