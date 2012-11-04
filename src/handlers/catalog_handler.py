@@ -73,7 +73,7 @@ def post(path, headers, body):
       import_catalog(
         parts[0].get_content_stream(),
         parts[1].get_content_stream(),
-        wrtier)
+        writer)
     finally:
       db.close()
 
@@ -103,7 +103,7 @@ def post(path, headers, body):
       import_catalog(
         parts[0].get_content_stream(),
         parts[1].get_content_stream(),
-        wrtier)
+        writer)
     finally:
       db.close()
 
