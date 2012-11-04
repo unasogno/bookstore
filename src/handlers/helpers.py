@@ -24,6 +24,13 @@ def init_logger(name, log_path):
   logger.setLevel(logging.DEBUG)
   return logger
 
+def to_binary_string(text):
+  binary = bytearray(text)
+  string = ''
+  for char in binary:
+    string += '%d ' % char
+  return string
+
 def print_chars(text, printer = None):
   chars = bytearray(text)
   chars_list = [hex(char) for char in chars]

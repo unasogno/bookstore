@@ -77,21 +77,16 @@ class Part(object):
         line = stream.readline()
         if '' == line: raise RequestBodyError('Missing boundary')
         # encoding of body could be various
+        '''
         if line.startswith('---'):
           print 'line = <%s>' % line
           if not line.startswith(boundary):
-            def to_binary_string(text):
-              binary = bytearray(text)
-              string = ''
-              for char in binary:
-                string += '%d ' % char
-              return string
-            print 'boundary => [%s]' % to_binary_string(boundary)
-            print 'line => [%s]' % to_binary_string(line)
-        if line.startswith(boundary):
-          print 'ending line %s' % line
-          break
+            print 'boundary => [%s]' % helpers.to_binary_string(boundary)
+            print 'line => [%s]' % helpers.to_binary_string(line)
+        '''
         
+        if line.startswith(boundary):
+          break
         output_stream.write(line)
       output_stream.flush()
       output_stream.close()
@@ -101,10 +96,10 @@ class Part(object):
 
 def parse_file(stream):
   parts = []
-  
+
   boundary = stream.readline()
   if '' == boundary: return parts
-  boundary = boundary[:-1] # trim the tailing '\r\n'
+  boundary = boundary[:-2] # trim the tailing '\r\n'
   
   while True:
     part = Part.parse(stream, boundary)

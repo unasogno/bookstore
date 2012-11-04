@@ -21,8 +21,8 @@ class CatalogHandlerTestCases(TestCase):
 
     def test_import_catalog(self):
         try:
-            fp = open(CATALOG_SAMPLE, 'r')
-            map_fp = open(FIELD_MAP_SAMPLE, 'r')
+            fp = open(CATALOG_SAMPLE, 'rb')
+            map_fp = open(FIELD_MAP_SAMPLE, 'rb')
 
             class DummyWriter(object):
                 def write(self, text):
@@ -35,7 +35,7 @@ class CatalogHandlerTestCases(TestCase):
             map_fp.close()
 
     def test_parse_field_map(self):
-        with open(FIELD_MAP_SAMPLE, 'r') as fp:
+        with open(FIELD_MAP_SAMPLE, 'rb') as fp:
             field_map = parse_field_map(fp)
             fp.close()
 
@@ -64,13 +64,13 @@ class CatalogHandlerTestCases(TestCase):
                            ['1,a\n', '2,b\n', '3,c\n',])
 
     def parse_field_map(self, filename):
-        with open(filename, 'r') as fp:
+        with open(filename, 'rb') as fp:
             field_map = parse_field_map(fp)
             fp.close()
         return field_map
 
     def parse_parts(self, filename):
-        with open(filename, 'r') as fp:
+        with open(filename, 'rb') as fp:
             parts = parse_file(fp)
             fp.close()
         return parts
