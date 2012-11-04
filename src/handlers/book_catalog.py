@@ -104,7 +104,7 @@ class CatalogMySQLWriter(object):
                     publish_date, class, sheet_numbers, folio, print_type,
                     author, barcode, comments) values
                     ('%s', '%s', '%s', '%s', '%s', '%s', 
-                    %d, '%s', '%s', '%s', '%s', '%s')
+                    %s, '%s', '%s', '%s', '%s', '%s')
                     ''' % item.get_values()
         # insert book_tag
         self.db.query(statement)
