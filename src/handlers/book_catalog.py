@@ -48,11 +48,10 @@ class CatalogItem(object):
                 self.print_type, self.author, self.barcode, self.comments)
 
     def __str__(self):
-        template =
-            'CatalogItem: title="%s", isbn="%s", publisher="%s", ' +
-            'list_price="%s", publish_date="%s", class="%s", ' +
-            'sheet_numbers="%d", folio="%s", print_type="%s", ' +
-            'author="%s", barcode="%s", comments="%s"'
+        template = 'CatalogItem: title="%s", isbn="%s", publisher="%s, \
+list_price="%s", publish_date="%s", class="%s", \
+sheet_numbers="%d", folio="%s", print_type="%s", \
+author="%s", barcode="%s", comments="%s"'
         
         return template % self.get_values()
 
