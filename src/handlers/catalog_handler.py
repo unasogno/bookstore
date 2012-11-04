@@ -67,7 +67,7 @@ def post(path, headers, body):
       logger.error('bad request - len(parts) == %d', len(parts))
       return 400, 'Bad Request', 'invalid format', None
 
-    db = mysql.connect(**DB_PARAMETERS)
+    db = mysql.connect(**config.DB_PARAMETERS)
     writer = CatalogMySQLWriter(db)
     try:
       import_catalog(
@@ -97,7 +97,7 @@ def post(path, headers, body):
       logger.error('bad request - len(parts) == %d', len(parts))
       return 400, 'Bad Request', 'invalid format', None
 
-    db = mysql.connect(**DB_PARAMETERS)
+    db = mysql.connect(**config.DB_PARAMETERS)
     writer = CatalogMySQLWriter(db)
     try:
       import_catalog(
