@@ -72,9 +72,12 @@ class CatalogReader(object):
             [(header, self.__headers.index(header))
             for header in tag_headers])
 
+        print field_map
+
     def read(self):
         try:
             line = self.__reader.next()
+            print line
         except:
             return None
         arguments = {}
