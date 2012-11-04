@@ -9,6 +9,7 @@ from StringIO import StringIO
 from csv import reader
 
 from catalog import parse_file
+from book_catalog import import_catalog
 import helpers
 import config
 
