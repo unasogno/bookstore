@@ -66,7 +66,6 @@ class Part(object):
     part.content_type = parse_attribute(attribute, 'Content-Type')
 
     line = stream.readline()
-    print 'line =>', line
 
     # body
     # todo: implement dispose method to release stream object
@@ -81,6 +80,7 @@ class Part(object):
         if line.startswith('---'):
           print 'line = <%s>' % line
         if line.startswith(boundary):
+          print 'ending line %s' % line
           break
         
         output_stream.write(line)
