@@ -7,9 +7,11 @@ import uuid
 import hashlib
 from StringIO import StringIO
 from csv import reader
+import MySQLdb as mysql
 
 from catalog import parse_file
 from book_catalog import import_catalog
+from book_catalog import CatalogMySQLWriter
 import helpers
 import config
 
@@ -38,7 +40,7 @@ def parse(headers, body):
 
 def content_type_equals(headers, expected_type):
   content_type = headers.get('content-type', '')
-  return content_type.find(expected_type) >= 0
+  return content_type.find(expected_type) >= 0  
 
 def get(path, headers, body):
   pass
@@ -65,7 +67,15 @@ def post(path, headers, body):
       logger.error('bad request - len(parts) == %d', len(parts))
       return 400, 'Bad Request', 'invalid format', None
 
-    import_catalog(parts[0].get_content_stream(), parts[1].get_content_stream())
+    db = mysql.connect(**DB_PARAMETERS)
+    writer = CatalogMySQLWriter(db)
+    try:
+      import_catalog(
+        parts[0].get_content_stream(),
+        parts[1].get_content_stream(),
+        wrtier)
+    finally:
+      db.close()
 
     response = "UPLOAD GOOD: %s" % hashlib.md5(body).hexdigest()
 
@@ -87,7 +97,15 @@ def post(path, headers, body):
       logger.error('bad request - len(parts) == %d', len(parts))
       return 400, 'Bad Request', 'invalid format', None
 
-    import_catalog(parts[0].get_content_stream(), parts[1].get_content_stream())
+    db = mysql.connect(**DB_PARAMETERS)
+    writer = CatalogMySQLWriter(db)
+    try:
+      import_catalog(
+        parts[0].get_content_stream(),
+        parts[1].get_content_stream(),
+        wrtier)
+    finally:
+      db.close()
 
     response = "UPLOAD GOOD: %s" % hashlib.md5(body).hexdigest()
 
