@@ -79,6 +79,15 @@ class Part(object):
         # encoding of body could be various
         if line.startswith('---'):
           print 'line = <%s>' % line
+          if not line.startswith(boundary):
+            def to_binary_string(text):
+              binary = bytearray(text)
+              string = ''
+              for char in string:
+                string += '%d ' % char
+              return string
+            print 'boundary => [%s]' % to_binary_string(boundary)
+            print 'line => [%s]' % to_binary_string(line)
         if line.startswith(boundary):
           print 'ending line %s' % line
           break
