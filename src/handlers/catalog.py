@@ -83,7 +83,7 @@ class Part(object):
             def to_binary_string(text):
               binary = bytearray(text)
               string = ''
-              for char in string:
+              for char in binary:
                 string += '%d ' % char
               return string
             print 'boundary => [%s]' % to_binary_string(boundary)
