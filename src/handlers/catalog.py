@@ -38,7 +38,6 @@ class Part(object):
   @staticmethod
   def parse(stream, boundary):
     line = stream.readline()
-    print line
     if '' == line: return None
 
     part = Part()
@@ -77,23 +76,14 @@ class Part(object):
       
       while True:
         line = stream.readline()
-        line = line.decode('gbk')
         if '' == line: raise RequestBodyError('Missing boundary')
         # encoding of body could be various
-        if config.DEBUG:
-          # helpers.print_chars(line)
-          # print line.encode('utf8')
-          if 2 <= len(line):
-            a = bytearray(line[-2:])
-            print a[0], a[1]
-          elif 1 == len(line):
-            print bytearray(line)[0]
-          else
-            print 'None'
+        if line.startswith('---'):
+          print 'line = <%s>' % line
         if line.startswith(boundary):
           break
         
-        output_stream.write(line.encode('utf8'))
+        output_stream.write(line)
       output_stream.flush()
       output_stream.close()
       part.content_file = path
