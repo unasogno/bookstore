@@ -48,12 +48,14 @@ class CatalogItem(object):
                 self.print_type, self.author, self.barcode, self.comments)
 
     def __str__(self):
-        template = 'CatalogItem: title="%s", isbn="%s", publisher="%s, \
-list_price="%s", publish_date="%s", class="%s", \
-sheet_numbers="%d", folio="%s", print_type="%s", \
-author="%s", barcode="%s", comments="%s"'
+        properties = {'title':self.title, 'isbn':self.isbn,
+                    'publisher':self.publisher,'list_price':self.list_price,
+                    'publish_date':self.publish_date, 'class':self.class_,
+                    'sheet_numbers':self.sheet_numbers, 'folio':self.folio,
+                    'print_type':self.print_type, 'author':self.author,
+                    'barcode':self.barcode, 'comments':self.comments}
         
-        return template % self.get_values()
+        return str(properties)
 
 class CatalogReader(object):
 
