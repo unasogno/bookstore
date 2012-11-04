@@ -20,6 +20,7 @@ def import_catalog(catalog_stream, field_map_stream, writer):
     while True:
         item = reader.read()
         if None == item: break
+        print item
         writer.write(item)
 
 class CatalogItem(object):
@@ -45,6 +46,15 @@ class CatalogItem(object):
         return (self.title, self.isbn, self.publisher, self.list_price,
                 self.publish_date, self.class_, self.sheet_numbers, self.folio,
                 self.print_type, self.author, self.barcode, self.comments)
+
+    def __str__(self):
+        template =
+            'CatalogItem: title="%s", isbn="%s", publisher="%s", ' +
+            'list_price="%s", publish_date="%s", class="%s", ' +
+            'sheet_numbers="%d", folio="%s", print_type="%s", ' +
+            'author="%s", barcode="%s", comments="%s"'
+        
+        return template % self.get_values()
 
 class CatalogReader(object):
 
