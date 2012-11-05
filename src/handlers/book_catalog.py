@@ -100,7 +100,7 @@ class CatalogMySQLWriter(object):
     def write(self, item):
         # insert book
         statement = '''
-                    insert into book (title, isbn, publisher, list_price,
+                    insert into stage (title, isbn, publisher, list_price,
                     publish_date, class, sheet_numbers, folio, print_type,
                     author, barcode, comments) values
                     ('%s', '%s', '%s', '%s', '%s', '%s', 

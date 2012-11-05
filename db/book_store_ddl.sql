@@ -1,6 +1,24 @@
+
 CREATE DATABASE IF NOT EXISTS bookstore 
 	CHARACTER SET = gbk
 	COLLATE = gbk_chinese_ci;
+	
+CREATE USER 'bookstore_api'@'127.0.0.1' IDENTIFIED BY '123';
+
+GRANT INSERT, SELECT, UPDATE, DELETE, CREATE TEMPORARY TABLES, EXECUTE 
+	ON bookstore.* 
+	TO 'bookstore_api'@127.0.0.1;
+
+-- drop user 'bookstore_api'@'127.0.0.1';
+
+
+CREATE USER 'bookstore_admin'@'127.0.0.1' IDENTIFIED BY '!QAZ2wsx';
+
+GRANT ALL ON bookstore.* TO 'bookstore_admin'@'127.0.0.1';
+
+-- drop user 'bookstore_admin'@'127.0.0.1';
+
+USE bookstore;
 
 -- 1
 CREATE TABLE IF NOT EXISTS customer
@@ -8,10 +26,10 @@ CREATE TABLE IF NOT EXISTS customer
   customer_id INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   comments VARCHAR(200),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added datetime NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(customer_id)
-) ENGINE = INNODB;
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 2
 CREATE TABLE IF NOT EXISTS publisher
@@ -19,11 +37,10 @@ CREATE TABLE IF NOT EXISTS publisher
   publisher_id INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `code` VARCHAR(10),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
-  date_modified datetime not null,
+  date_added datetime not null,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(publisher_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 3
 CREATE TABLE IF NOT EXISTS supplier
@@ -33,10 +50,10 @@ CREATE TABLE IF NOT EXISTS supplier
   address VARCHAR(200),
   phone_number VARCHAR(50),
   comments VARCHAR(200),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added datetime not null,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(supplier_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 4
 CREATE TABLE IF NOT EXISTS book
@@ -55,22 +72,22 @@ CREATE TABLE IF NOT EXISTS book
   barcode VARCHAR(20),
   comments VARCHAR(200),
   status int not null default 0,
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added datetime not null,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(book_id),
   FOREIGN KEY(publisher_id) REFERENCES publisher(publisher_id) 
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 5
 CREATE TABLE IF NOT EXISTS publisher_partner
 (
   publisher_id INT NOT NULL,
   supplier_id INT NOT NULL,
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added datetime not null,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY(publisher_id)  REFERENCES publisher(publisher_id),
   FOREIGN KEY(supplier_id)  REFERENCES supplier(supplier_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 6
 CREATE TABLE IF NOT EXISTS supply
@@ -78,10 +95,10 @@ CREATE TABLE IF NOT EXISTS supply
   supplier_id INT NOT NULL,
   book_id INT NOT NULL,
   discount DECIMAL(4,3) NOT NULL DEFAULT 1,
-  inventory INT NOT NULL DEFAULT -1
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null
-);
+  inventory INT NOT NULL DEFAULT -1,
+  date_added datetime NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 7 
 CREATE TABLE IF NOT EXISTS `order`
@@ -89,14 +106,14 @@ CREATE TABLE IF NOT EXISTS `order`
   order_id INT NOT NULL AUTO_INCREMENT,
   customer_id INT NOT NULL,
   `status` INT(3) NOT NULL,
-  date_added DATETIME NOT NULL,
+  date_purchased DATETIME NOT NULL,
   date_shipped DATETIME,
   comments VARCHAR(200),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added datetime NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(order_id),
   FOREIGN KEY(customer_id) REFERENCES customer(customer_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 8
 CREATE TABLE IF NOT EXISTS order_item
@@ -106,22 +123,23 @@ CREATE TABLE IF NOT EXISTS order_item
   book_id INT NOT NULL,
   discount DECIMAL(4,3),
   quantity INT(5),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added datetime NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(order_item_id),
   FOREIGN KEY(order_id) REFERENCES `order`(order_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 9
 CREATE TABLE IF NOT EXISTS `code`
 (
   `type` INT(3),
-  `name` VARCHAR(50),
-  `value` INT(3)
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null
-);
+  `name` VARCHAR(100),
+  `value` INT(3),
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`type`, `value`)
+) ENGINE = INNODB, CHARACTER SET = gbk;
 
 -- 10
 CREATE TABLE IF NOT EXISTS contact
@@ -134,10 +152,10 @@ CREATE TABLE IF NOT EXISTS contact
   cell_phone VARCHAR(20),
   email VARCHAR(100),
   comments VARCHAR(200),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (contact_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 11
 CREATE TABLE IF NOT EXISTS partner_contact
@@ -146,10 +164,10 @@ CREATE TABLE IF NOT EXISTS partner_contact
   partner_type INT(3) NOT NULL,
   partner_id INT(3) NOT NULL,
   comments VARCHAR(200),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (contact_id, partner_type, partner_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 12
 CREATE TABLE IF NOT EXISTS `user`
@@ -164,10 +182,10 @@ CREATE TABLE IF NOT EXISTS `user`
   `status` int not null default 0,
   secret char(32) not null,
   token varchar(128),
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id)
-) ENGINE = INNODB;
+)  ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 13
 CREATE TABLE IF NOT EXISTS book_tag
@@ -176,47 +194,40 @@ CREATE TABLE IF NOT EXISTS book_tag
   book_id INT NOT NULL,
   tag_type INT(5) NOT NULL,
   tag VARCHAR(200) NOT NULL,
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (tag_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
-);
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 14
-create table IF NOT EXISTS book_index
+CREATE TABLE IF NOT EXISTS book_index
 (
-  book_id int not null,
-  doc_id int not null,
-  date_created datetime not null,
-  primary key(book_id, doc_id)
-);
+  book_id INT NOT NULL,
+  doc_id INT NOT NULL,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(book_id, doc_id)
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 15
-create table IF NOT EXISTS high_water_mark
+CREATE TABLE IF NOT EXISTS high_water_mark
 (
-  entity_id int not null,
-  app_id int not null,
-  time_stamp timestamp default 0,
-  date_created datetime not null,
-  primary key(entity_id, app_id)
-);
+  entity_id INT NOT NULL,
+  app_id INT NOT NULL,
+  time_stamp TIMESTAMP DEFAULT 0,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  
+  PRIMARY KEY(entity_id, app_id)
+) ENGINE = INNODB, CHARACTER SET = GBK;
 
 -- 16
 create table IF NOT EXISTS `case`
 (
-  case_id int not null auto_increment,
-  customer_id int not null,
-  user_id int not null,
-  time_stamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  date_created datetime not null,
-  primary key (case_id)
-) engine = INNODB, character set = gbk;
-
--- 17
-create table IF NOT EXISTS code 
-(
-  `type` smallint not null,
-  name varchar(200) not null,
-  `value` smallint not null,
-  primary key (`type`, `value`)
-) engine = INNODB, character set = gbk;
+  case_id INT NOT NULL AUTO_INCREMENT,
+  customer_id INT NOT NULL,
+  user_id INT NOT NULL,
+  date_added DATETIME NOT NULL,
+  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (case_id)
+) ENGINE = INNODB, CHARACTER SET = GBK;
