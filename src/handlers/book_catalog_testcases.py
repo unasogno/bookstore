@@ -134,7 +134,13 @@ class CatalogMySQLWriterTestCase(TestCase):
             self.helper.assert_result(
                 "select value from raw_code where type = 8 and name = 'mono'",
                 ((1,),))
+            
             writer.apply()
+            
+            # self.bookstore_helper.assert_count('book', 1)
+            # self.bookstore_helper.assert_count('book_tag', 2)
+            # self.bookstore_helper.assert_count('publisher', 1)
+            self.helper.assert_count('bookstore.code', 2)
         finally:
             writer.undo()
             self.helper.assert_count('job', 0)
@@ -188,11 +194,17 @@ class CatalogMySQLWriterTestCase(TestCase):
 
     def setUp(self):
         self.db = mysql.connect(**STAGE_DB)
+        self.bookstore_db = mysql.connect(**BOOKSTORE_DB)
+        
         self.helper = db_test_helper.Helper(self.db, self.fail)
+        
         self.helper.empty_table('raw_code')
+        self.helper.empty_table('bookstore.book')
+        self.helper.empty_table('bookstore.code')
 
     def tearDown(self):
         self.db.close()
+        self.bookstore_db.close()
 
 class DBObjectTestCase(TestCase):
     def test_sp_add_code(self):
@@ -249,6 +261,7 @@ class ImportCatalogTestCase(TestCase):
     def setUp(self):
         self.db = mysql.connect(**STAGE_DB)
         self.helper = db_test_helper.Helper(self.db, self.fail)
+        self.helper.empty_table('bookstore.code')
 
     def tearDown(self):
         self.db.close()

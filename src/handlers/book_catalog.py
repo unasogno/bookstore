@@ -125,6 +125,10 @@ class CatalogMySQLWriter(object):
         return self.job_id
 
     def apply(self):
+        statement = '''
+                    CALL sp_apply_job(%d);
+                    ''' % self.job_id
+        self.db.query(statement)
         self.db.commit()
 
     def undo(self):

@@ -59,3 +59,4 @@ in the '%s' field of the '%s' table. \
 
     def empty_table(self, table):
         self.db.query("delete from %s where 1 = 1" % table)
+        self.db.commit()
