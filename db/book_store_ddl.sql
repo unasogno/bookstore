@@ -1,22 +1,6 @@
-
 CREATE DATABASE IF NOT EXISTS bookstore 
 	CHARACTER SET = gbk
 	COLLATE = gbk_chinese_ci;
-	
-CREATE USER 'bookstore_api'@'127.0.0.1' IDENTIFIED BY '123';
-
-GRANT INSERT, SELECT, UPDATE, DELETE, CREATE TEMPORARY TABLES, EXECUTE 
-	ON bookstore.* 
-	TO 'bookstore_api'@127.0.0.1;
-
--- drop user 'bookstore_api'@'127.0.0.1';
-
-
-CREATE USER 'bookstore_admin'@'127.0.0.1' IDENTIFIED BY '!QAZ2wsx';
-
-GRANT ALL ON bookstore.* TO 'bookstore_admin'@'127.0.0.1';
-
--- drop user 'bookstore_admin'@'127.0.0.1';
 
 USE bookstore;
 
@@ -71,7 +55,7 @@ CREATE TABLE IF NOT EXISTS book
   author VARCHAR(200),
   barcode VARCHAR(20),
   comments VARCHAR(200),
-  status int not null default 0,
+  `status` int not null default 0,
   date_added datetime not null,
   date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(book_id),
@@ -193,9 +177,12 @@ CREATE TABLE IF NOT EXISTS book_tag
   tag_id INT NOT NULL AUTO_INCREMENT,
   book_id INT NOT NULL,
   tag_type INT(5) NOT NULL,
-  tag VARCHAR(200) NOT NULL,
+  tag_name VARCHAR(50) NOT NULL,
+  tag_value VARCHAR(200) NOT NULL,
   date_added DATETIME NOT NULL,
-  date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  date_modified TIMESTAMP 
+  	DEFAULT CURRENT_TIMESTAMP 
+	ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (tag_id),
   FOREIGN KEY(book_id) REFERENCES book(book_id)
 ) ENGINE = INNODB, CHARACTER SET = GBK;
@@ -227,6 +214,7 @@ create table IF NOT EXISTS `case`
   case_id INT NOT NULL AUTO_INCREMENT,
   customer_id INT NOT NULL,
   user_id INT NOT NULL,
+  `status` INT NOT NULL,
   date_added DATETIME NOT NULL,
   date_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (case_id)
