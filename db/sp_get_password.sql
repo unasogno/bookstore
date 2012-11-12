@@ -2,6 +2,8 @@ delimiter $$
 
 use `bookstore`$$
 
+drop procedure if exists `bookstore`.`sp_get_password`$$
+
 create procedure `bookstore`.`sp_get_password`
 (
   identity varchar(256),
