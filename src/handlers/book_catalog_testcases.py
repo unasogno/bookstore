@@ -125,7 +125,7 @@ class CatalogMySQLWriterTestCase(TestCase):
         self.helper.assert_unique('job', 'job_id', job_id)
         try:
             writer.write(item)
-            writer.commit()
+            writer.apply()
             self.helper.assert_count('raw_book', 1)
             self.helper.assert_count('raw_tag', 2)
             self.helper.assert_count('raw_publisher', 1)
@@ -158,7 +158,7 @@ class CatalogMySQLWriterTestCase(TestCase):
         try:
             writer.write(item1)
             writer.write(item2)
-            writer.commit()
+            writer.apply()
             self.helper.assert_count('raw_book', 2)
             self.helper.assert_count('raw_tag', 4)
             self.helper.assert_count('raw_publisher', 1)

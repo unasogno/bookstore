@@ -25,7 +25,7 @@ def import_catalog(catalog_stream, field_map_stream, writer):
             if None == item: break
             writer.write(item)
 
-        writer.commit()
+        writer.apply()
     except:
         writer.undo()
         raise
@@ -123,7 +123,7 @@ class CatalogMySQLWriter(object):
         self.job_id = self.db.insert_id()
         return self.job_id
 
-    def commit(self):
+    def apply(self):
         self.db.commit()
 
     def undo(self):
