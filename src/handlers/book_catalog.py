@@ -1,6 +1,7 @@
 # -*- coding:utf8 -*-
 
 import csv
+import helpers
 
 def parse_field_map(stream):
     csv_reader = csv.reader(stream, delimiter=':', quotechar='"')
@@ -202,18 +203,11 @@ class CatalogMySQLWriter(object):
         self.db.query(statement)
 
         statement = "CALL sp_add_code(%d, 7, '%s')" % (self.job_id, item.folio)
-        cursor = self.db.cursor()
-        cursor.execute(statement)
-        cursor.fetchall()
-        cursor.close()
+        helpers.execute_result(statement, self.db)
         
         statement = "CALL sp_add_code(%d, 8, '%s')" % (
             self.job_id, item.print_type)
-        cursor = self.db.cursor()
-        cursor.execute(statement)
-        cursor.fetchall()
-        cursor.close()
-
+        helpers.execute_result(statement, self.db)
 
 if '__main__' == __name__:
     print 'book catalog'

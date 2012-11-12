@@ -38,7 +38,6 @@ def print_chars(text, printer = None):
     print chars_list
   else:
     printer(chars_list)
-      
 
 def format_exception():
   return traceback.format_exc()
@@ -63,3 +62,10 @@ def pad_str(str, total, pad_left = True, char = '0'):
   else:
     return str + char * length
 
+def execute_result(statement, db):
+  cursor = db.cursor()
+  try:
+    cursor.execute(statement)
+    return cursor.fetchall()
+  finally:
+    cursor.close()
