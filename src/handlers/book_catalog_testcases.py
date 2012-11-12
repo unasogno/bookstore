@@ -125,7 +125,6 @@ class CatalogMySQLWriterTestCase(TestCase):
         self.helper.assert_unique('job', 'job_id', job_id)
         try:
             writer.write(item)
-            writer.apply()
             self.helper.assert_count('raw_book', 1)
             self.helper.assert_count('raw_tag', 2)
             self.helper.assert_count('raw_publisher', 1)
@@ -135,6 +134,7 @@ class CatalogMySQLWriterTestCase(TestCase):
             self.helper.assert_result(
                 "select value from raw_code where type = 8 and name = 'mono'",
                 ((1,),))
+            writer.apply()
         finally:
             writer.undo()
             self.helper.assert_count('job', 0)
@@ -142,6 +142,23 @@ class CatalogMySQLWriterTestCase(TestCase):
             self.helper.assert_count('raw_tag', 0)
             self.helper.assert_count('raw_publisher', 0)
             self.helper.assert_count('raw_code', 0)
+
+    def test_undo_write(self):
+        writer = CatalogMySQLWriter(self.db)
+        item = CatalogItem(
+            'a', '1234', 'aph', '30', '2012', 'I.', 18, '4', 'mono', 'sb',
+            'a', 'blahblahblah', { 'audience': 'ms', 'awards': 'annual' })
+
+        job_id = writer.begin_write()
+        self.helper.assert_unique('job', 'job_id', job_id)
+
+        writer.write(item)
+        writer.undo()
+        self.helper.assert_count('job', 0)
+        self.helper.assert_count('raw_book', 0)
+        self.helper.assert_count('raw_tag', 0)
+        self.helper.assert_count('raw_publisher', 0)
+        self.helper.assert_count('raw_code', 0)
 
     def test_write_duplicated_publisher(self):
         writer = CatalogMySQLWriter(self.db)
@@ -158,10 +175,10 @@ class CatalogMySQLWriterTestCase(TestCase):
         try:
             writer.write(item1)
             writer.write(item2)
-            writer.apply()
             self.helper.assert_count('raw_book', 2)
             self.helper.assert_count('raw_tag', 4)
             self.helper.assert_count('raw_publisher', 1)
+            writer.apply()
         finally:
             writer.undo()
             self.helper.assert_count('job', 0)
