@@ -206,8 +206,12 @@ class CatalogMySQLWriter(object):
                     ''' % (publisher_id, book_id)
         self.db.query(statement)
 
+        # todo: write back to raw_book
+
         statement = "CALL sp_add_code(%d, 7, '%s')" % (self.job_id, item.folio)
         helpers.execute_result(statement, self.db)
+
+        # todo: write back to raw_book
         
         statement = "CALL sp_add_code(%d, 8, '%s')" % (
             self.job_id, item.print_type)

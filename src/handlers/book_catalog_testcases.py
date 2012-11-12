@@ -73,8 +73,6 @@ class CatalogReaderTestCase(TestCase):
         
         self.assertIsInstance(item, CatalogItem)
         self.assertEquals(2, len(item.tags))
-
-        print item.tags
         
         self.assertEquals('ms', item.tags['audience'])
         self.assertEquals('annual', item.tags['awards'])
@@ -136,10 +134,10 @@ class CatalogMySQLWriterTestCase(TestCase):
                 ((1,),))
             
             writer.apply()
-            
-            # self.bookstore_helper.assert_count('book', 1)
-            # self.bookstore_helper.assert_count('book_tag', 2)
-            # self.bookstore_helper.assert_count('publisher', 1)
+
+            self.helper.assert_count('bookstore.book', 1)
+            self.helper.assert_count('bookstore.book_tag', 2)
+            self.helper.assert_count('bookstore.publisher', 1)
             self.helper.assert_count('bookstore.code', 2)
         finally:
             writer.undo()
@@ -199,7 +197,9 @@ class CatalogMySQLWriterTestCase(TestCase):
         self.helper = db_test_helper.Helper(self.db, self.fail)
         
         self.helper.empty_table('raw_code')
+        self.helper.empty_table('bookstore.book_tag')
         self.helper.empty_table('bookstore.book')
+        self.helper.empty_table('bookstore.publisher')
         self.helper.empty_table('bookstore.code')
 
     def tearDown(self):
