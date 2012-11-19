@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS raw_book
     barcode VARCHAR(20),
     comments VARCHAR(200),
     publisher_id INT,
+    folio_code INT(3),
+    print_type_code INT(3),
     PRIMARY KEY(book_id)
 ) ENGINE = INNODB, CHARACTER SET = GBK;
 
@@ -68,7 +70,7 @@ CREATE TABLE IF NOT EXISTS raw_publisher
     publisher_id INT NOT NULL AUTO_INCREMENT,
     job_id INT NOT NULL,
     `name` VARCHAR(50) NOT NULL,
-    date_added datetime NOT NULL,
+    date_added DATETIME NOT NULL,
     date_modified TIMESTAMP 
 	     DEFAULT CURRENT_TIMESTAMP 
 	     ON UPDATE CURRENT_TIMESTAMP,

@@ -18,8 +18,8 @@ CREATE PROCEDURE `bookstore_stage`.`sp_apply_job`(
     WHERE rp.job_id = job_id;
     
     INSERT INTO `bookstore`.book 
-    (book_id, title, publisher_id, isbn, class, author)
-    SELECT book_id, title, publisher_id, isbn, class, author
+    (book_id, title, publisher_id, isbn, class, author, list_price)
+    SELECT book_id, title, publisher_id, isbn, class, author, list_price
     FROM raw_book rb
     WHERE rb.job_id = job_id;
     
