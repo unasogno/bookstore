@@ -33,6 +33,47 @@ def import_catalog(catalog_stream, field_map_stream, writer):
 
 class CatalogItem(object):
 
+    @staticmethod
+    def meta():
+        
+        class DateField(object):
+            '''
+            supported date format:
+            1. yyyy-MM-dd
+            2. yyyy-MM
+            3. yyyy.MM.dd
+            4. yyyy.MM
+            5. yyyy
+
+            acceptable inputs:
+            1. digit: 0-9
+            2. delimiter: '.; and '-'
+            '''
+            
+            def extract(self, literal):
+                tokens = self._parse_token(literal)
+
+            def _parse_token(self, literal):
+                tokens = []
+                token = []
+                state = None
+                
+                def statemata(char):
+                    if char.isdigit():
+                        token.append(char)
+                    elif char == '-':
+                        if len(token) > 0:
+                            tokens.append(''.join(token))
+                    
+                for c in literal:
+                    statemata(c)
+            
+        class Meta(object):
+            def __init__(self):
+                self.fields = { 'publish_date' : DateField() }
+
+        return Meta()
+
     def __init__(self, title, isbn, publisher, list_price, publish_date, class_,
                  sheet_numbers, folio, print_type, author, barcode, comments,
                  tags):

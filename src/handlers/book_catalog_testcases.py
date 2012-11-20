@@ -4,6 +4,7 @@ import unittest
 from unittest import TestCase
 from mocker import Mocker
 import db_test_helper
+import datetime
 
 import MySQLdb as mysql
 
@@ -205,6 +206,13 @@ class CatalogMySQLWriterTestCase(TestCase):
     def tearDown(self):
         self.db.close()
         self.bookstore_db.close()
+
+class CatalogItemFieldsTestCase(TestCase):
+    def test_publish_date_field(self):
+        field = CatalogItem.meta().fields['publish_date']
+        literal = '2012-1-1'
+        date = field.extract(literal)
+        self.assertEquals(datetime.date(2012,1,1), date)
 
 class DBObjectTestCase(TestCase):
     def test_sp_add_code(self):
