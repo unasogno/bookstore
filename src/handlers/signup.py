@@ -1,4 +1,4 @@
-# _*_ coding=utf8 _*_
+ # _*_ coding=utf8 _*_
 
 import rsa
 import hashlib
@@ -51,7 +51,7 @@ def get(path, headers, body):
       password = decrypt(arguments['password'], priv)
       password = hashlib.new('md5', password).hexdigest()
       create_with_email(identity, password)
-    else if is_phone_number(identity):
+    elif is_phone_number(identity):
       password = decrypt(arguments['password'], priv)
       password = hashlib.new('md5', password).hexdigest()
       create_with_phone_number(identity, password)
