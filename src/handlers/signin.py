@@ -9,6 +9,7 @@ import config
 import helpers
 
 def load_private():
+  # DO NOT CACHE for the priviate key could be changed
   with open('priv.txt', 'r') as fp:
     pem = fp.read()
     fp.close()
@@ -16,8 +17,15 @@ def load_private():
 
 def decrypt(cipher, priv):
   global logger
-  cipher = helpers.decode_urlencoding(cipher)
-  cipher = int(cipher, 16)
+  if '' == cipher:
+    logger.warn('Null cipher')
+    return None
+  try:
+    cipher = helpers.decode_urlencoding(cipher)
+    cipher = int(cipher, 16)
+  except:
+    logger.warn('Unrecognized cipher = %s', cipher)
+    return None
   logger.debug('cipher = %d', cipher)
 
   cipher = rsa.transform.int2bytes(cipher)
@@ -40,8 +48,15 @@ def get(path, headers, body):
 
   try:
     priv = load_private()
+    
     identity_str = decrypt(arguments['identity'], priv)
+    if None == identity_str:
+      message = 'The login of "%s" does not exist.' % identity_str
+      return 404, 'Not found', message, {}    
     password = decrypt(arguments['password'], priv)
+    if None == password:
+      return 401, 'Unauthorized', 'Incorrect password.', {}
+    
     db = user.Database()
     identity = user.Identity.load(db, identity_str)
     if None == identity: 
