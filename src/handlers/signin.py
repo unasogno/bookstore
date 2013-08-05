@@ -58,7 +58,7 @@ def get(path, headers, body):
       return 401, 'Unauthorized', 'Incorrect password.', {}
     
     db = user.Database()
-	logger.debug('identity = %s', identity_str)
+    logger.debug('identity = %s', identity_str)
     identity = user.Identity.load(db, identity_str)
     if None == identity: 
       message = 'The login of "%s" does not exist.' % identity_str
