@@ -9,7 +9,7 @@ import config
 import helpers
 
 def load_private():
-  with open('priv.txt', 'r') as fp:
+  with open('private.pem', 'r') as fp:
     pem = fp.read()
     fp.close()
   return rsa.PrivateKey.load_pkcs1(pem)

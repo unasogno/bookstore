@@ -10,7 +10,7 @@ import helpers
 
 def load_private():
   # DO NOT CACHE for the priviate key could be changed
-  with open('priv.txt', 'r') as fp:
+  with open('private.pem', 'r') as fp:
     pem = fp.read()
     fp.close()
   return rsa.PrivateKey.load_pkcs1(pem)

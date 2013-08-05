@@ -2,7 +2,7 @@
 var identity_prompt = "电子邮箱/手机号";
 
 function signin(identity, password, onSuccess, onFailure) {
-  $.get("/rsa/public.key", function(result) {
+  $.get("/rsa/public.pem", function(result) {
     var pub = result;
     var pubkey = new RSAKey();
     pubkey.setPublic(pub, '10001');
